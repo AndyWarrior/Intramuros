@@ -62,8 +62,8 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Usuarios</a></li>
-                <li><a href="superAdmin-deportes.html">Deportes</a></li>
+                <li><a href="superAdmin-users.html">Usuarios</a></li>
+                <li class="active"><a href="superAdmin-deportes.html">Deportes</a></li>
 				<li><a href="superAdmin-reglamento.html">Reglamento</a></li>
             </ul>
         </div>
@@ -72,51 +72,36 @@
 </div>
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h1 class="page-header">Usuarios</h1>
+    <h1 class="page-header">Crear nuevo deporte</h1>
     <div class="table-responsive">
 
-        <a class="btn btn-primary btn-lg" href="superAdmin-createUser.html" style="margin-bottom: 10px">New User</a>
-
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Username</th>
-                <th>Name</th>
-                <th>email</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>jplara</td>
-                <td>Juan Paulo</td>
-                <td>jplarar@gmail.com</td>
-                <td>delete</td>
-            </tr>
-            <tr>
-                <td>anders</td>
-                <td>Andres Lopez</td>
-                <td>exaple@email.com</td>
-                <td>delete</td>
-            </tr>
-            <tr>
-                <td>adrian</td>
-                <td>Adrian Lozano</td>
-                <td>exaple@email.com</td>
-                <td>delete</td>
-            </tr>
-            <tr>
-                <td>manuel</td>
-                <td>Manuel Calzado</td>
-                <td>exaple@email.com</td>
-                <td>delete</td>
-            </tr>
-
-            </tbody>
-
-        </table>
-    </div>
+		<form role="form" action="superAdmin-deportes.html">
+		  <div class="form-group">
+			<label for="exampleInputName">Deporte</label>
+			<input type="text" class="form-control" id="exampleInputEmail1" placeholder="deporte">
+		  </div>
+		  <div class="form-group">
+			<label for="exampleInputUser">Categoria</label>
+			<input type="text" class="form-control" id="exampleInputUser" placeholder="categoria">
+		  </div>
+		  <div class="form-group">
+			<label for="exampleInputPassword1">Horario</label>
+			<input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
+		  </div>
+		  <div class ="form-group">
+		  Encargado:
+                <select>
+                    <option value="Futbol">Juan</option>
+                    <option value="Basquebol">Andres</option>
+                    <option value="Softbol">Adrian</option>
+                    <option value="Rugby">Manuel</option>
+                </select>
+			</div>
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</div>
 </div>
+
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
