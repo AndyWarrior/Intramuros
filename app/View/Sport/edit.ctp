@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="superAdmin-users.html">Usuarios</a></li>
-                <li ><a href="#">Deportes</a></li>
-                <li ><a href="superAdmin-reglamento.html">Reglamento</a></li>
+                <li ><a href="/users">Usuarios</a></li>
+                <li class="active"><a href="/sport">Deportes</a></li>
+                <li ><a href="#">Reglamento</a></li>
             </ul>
         </div>
 

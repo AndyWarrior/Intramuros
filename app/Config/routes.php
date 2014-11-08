@@ -29,7 +29,7 @@
     Router::connect('/login', array('controller' => 'security', 'action' => 'login'));
     Router::connect('/logout', array('controller' => 'security', 'action' => 'logout'));
 //Users
-    Router::connect('/dashboard', array('controller' => 'users', 'action' => 'index'));
+    Router::connect('/users', array('controller' => 'users', 'action' => 'index'));
 //Sports
     Router::connect('/sport', array('controller' => 'sport', 'action' => 'index'));
 
