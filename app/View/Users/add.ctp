@@ -3,8 +3,8 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="superAdmin-users.html">Usuarios</a></li>
-                <li ><a href="#">Deportes</a></li>
+                <li class="active"><?php echo $this->Html->link( "Usuarios",   array('controller' => 'Users', 'action'=>'index') ); ?></li>
+                <li ><?php echo $this->Html->link( "Deportes",   array('Controller' => 'Sport', 'action'=>'index') ); ?></li>
                 <li ><a href="superAdmin-reglamento.html">Reglamento</a></li>
             </ul>
         </div>

@@ -89,7 +89,7 @@ class User extends AppModel {
 
     /**
      * Before isUniqueUsername
-     * @param array $options
+     * @param array $check
      * @return boolean
      */
     function isUniqueUsername($check) {
@@ -120,7 +120,7 @@ class User extends AppModel {
 
     /**
      * Before isUniqueEmail
-     * @param array $options
+     * @param array $check
      * @return boolean
      */
     function isUniqueEmail($check) {

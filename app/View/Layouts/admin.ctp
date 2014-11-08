@@ -20,8 +20,7 @@ $user = $this->Session->read('Auth.User');
 <head>
     <?php echo $this->Html->charset(); ?>
     <title>
-        <?php echo $cakeDescription ?>:
-        <?php echo $this->fetch('title'); ?>
+        Intramuros
     </title>
     <?php
     echo $this->Html->meta('icon');
@@ -50,9 +49,9 @@ $user = $this->Session->read('Auth.User');
 
         <ul class="nav navbar-nav navbar-left">
             <?php if($user['user_type'] == 1) { ?>
-             <li>
-                <a href="#">SuperAdmin</a>
-            </li>
+                <li>
+                    <a href="#">SuperAdmin</a>
+                </li>
             <?php } ?>
             <li>
                 <a href="#">Deporte</a>
@@ -63,8 +62,8 @@ $user = $this->Session->read('Auth.User');
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"> <?php echo $user['username'] ?> </a></li>
                 <li>
-                   <?php
-                        echo $this->Html->link( "Logout",   array('controller' => 'security', 'action'=>'logout') );
+                    <?php
+                    echo $this->Html->link( "Logout",   array('controller' => 'security', 'action'=>'logout') );
                     ?>
                 </li>
             </ul>
