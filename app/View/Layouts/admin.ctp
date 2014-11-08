@@ -64,7 +64,7 @@ $user = $this->Session->read('Auth.User');
                 <li><a href="#"> <?php echo $user['username'] ?> </a></li>
                 <li>
                    <?php
-                        echo $this->Html->link( "Logout",   array('action'=>'logout') );
+                        echo $this->Html->link( "Logout",   array('controller' => 'security', 'action'=>'logout') );
                     ?>
                 </li>
             </ul>
