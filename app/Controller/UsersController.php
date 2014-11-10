@@ -12,6 +12,11 @@ class UsersController extends AppController {
         'order' => array('User.username' => 'asc' )
     );
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('add');
+    }
+
     public function index() {
         $this->layout='admin';
         $this->paginate = array(
