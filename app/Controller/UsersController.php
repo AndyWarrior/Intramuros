@@ -1,112 +1,33 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: juanpi-91
- * Date: 11/8/14
- * Time: 2:21 AM
- */
 
-class UsersController extends AppController {
+class UsersController extends AppController
+{
+    public $helpers = array('Html', 'Form');
 
-    public $paginate = array(
-        'order' => array('User.username' => 'asc' )
-    );
-
-    public function beforeFilter() {
-        parent::beforeFilter();
-        $this->Auth->allow('add');
+    public function index(){
+        $users = $this->User->find('all');
+        $this->set('users', $users);
     }
 
-    public function index() {
-        $this->layout='admin';
-        $this->paginate = array(
-            'order' => array('User.username' => 'asc' )
-        );
-        $users = $this->paginate('User');
-        $this->set(compact('users'));
-    }
+    public function add()
+    {
 
-
-    public function add() {
-        $this->layout='admin';
         if ($this->request->is('post')) {
-
             $this->User->create();
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been created'));
-                $this->redirect(array('action' => 'index'));
+            if ($this->User->save($this->request->data))
+            {
+                $this->Session->setFlash('Tu usuario ha sido creado');
             } else {
-                $this->Session->setFlash(__('The user could not be created. Please, try again.'));
+                $this->Session->setFlash('No se puedo crear el usuario');
             }
+
+            $this->redirect(array('action'=>'index'));
+
         }
+
     }
 
-    public function edit($user_id = null) {
-        $this->layout='admin';
-        if (!$user_id) {
-            $this->Session->setFlash('Please provide a user id');
-            $this->redirect(array('action'=>'index'));
-        }
+    public function edit($id = null) {
 
-        $user = $this->User->find('all', array('user_id' => $user_id));
-        if (!$user) {
-            $this->Session->setFlash('Invalid User ID Provided');
-            $this->redirect(array('action'=>'index'));
-        }
-
-        if ($this->request->is('post') || $this->request->is('put')) {
-            $this->User->user_id = $user_id;
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been updated'));
-                $this->redirect(array('action' => 'index'));
-            }else{
-                $this->Session->setFlash(__('Unable to update your user.'));
-            }
-        }
-
-        if (!$this->request->data) {
-            $this->request->data = $user;
-        }
     }
-
-    public function deactivate($user_id = null) {
-
-        if (!$user_id) {
-            $this->Session->setFlash('Please provide a user id');
-            $this->redirect(array('action'=>'index'));
-        }
-
-        $this->User->user_id = $user_id;
-        if (!$this->User->exists()) {
-            $this->Session->setFlash('Invalid user id provided');
-            $this->redirect(array('action'=>'index'));
-        }
-        if ($this->User->saveField('active', 0)) {
-            $this->Session->setFlash(__('User deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('User was not deleted'));
-        $this->redirect(array('action' => 'index'));
-    }
-
-    public function activate($user_id = null) {
-
-        if (!$user_id) {
-            $this->Session->setFlash('Please provide a user id');
-            $this->redirect(array('action'=>'index'));
-        }
-
-        $this->User->id = $user_id;
-        if (!$this->User->exists()) {
-            $this->Session->setFlash('Invalid user id provided');
-            $this->redirect(array('action'=>'index'));
-        }
-        if ($this->User->saveField('active', 1)) {
-            $this->Session->setFlash(__('User re-activated'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('User was not re-activated'));
-        $this->redirect(array('action' => 'index'));
-    }
-
 }

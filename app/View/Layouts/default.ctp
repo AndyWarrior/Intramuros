@@ -13,51 +13,87 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
-$cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
+$user = $this->Session->read('Auth.User');
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $cakeDescription ?>:
-		<?php echo $this->fetch('title'); ?>
-	</title>
-	<?php
-		echo $this->Html->meta('icon');
+    <?php echo $this->Html->charset(); ?>
+    <title>
+        Intramuros
+    </title>
+    <?php
+    echo $this->Html->meta('icon');
 
-		echo $this->Html->css('cake.generic');
+    echo $this->Html->css('bootstrap.min');
+    echo $this->Html->css('dashboard');
 
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
-	?>
+    echo $this->fetch('meta');
+    echo $this->fetch('css');
+    echo $this->fetch('script');
+    ?>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
-		</div>
-		<div id="content">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Intramutos</a>
+        </div>
 
-			<?php echo $this->Session->flash(); ?>
+        <ul class="nav navbar-nav navbar-left">
+            <?php if($user['user_type'] == 1) { ?>
+                <li>
+                    <a href="#">SuperAdmin</a>
+                </li>
+            <?php } ?>
+            <li>
+                <a href="#">Deporte</a>
+            </li>
+        </ul>
 
-			<?php echo $this->fetch('content'); ?>
-		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
-				);
-			?>
-			<p>
-				<?php echo $cakeVersion; ?>
-			</p>
-		</div>
-	</div>
-	<?php echo $this->element('sql_dump'); ?>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"> <?php echo $user['username'] ?> </a></li>
+                <li>
+                    <a href="/logout"><i class="fa fa-power-off"> </i> Log out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="container">
+    <div id="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li ><a href="/">Usuarios</a></li>
+                        <li ><a href="/">Deportes</a></li>
+                        <li ><a href="/">Reglamento</a></li>
+                        <li ><a href="/">Reportes</a></li>
+                        <li ><a href="/">Aviso General</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div class="users form">
+                <?php echo $this->Session->flash(); ?>
+                <?php echo $this->fetch('content'); ?>
+                <?php echo $this->element('sql_dump'); ?>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
 </body>
 </html>

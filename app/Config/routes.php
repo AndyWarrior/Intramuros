@@ -28,10 +28,7 @@
     Router::connect('/', array('controller' => 'security', 'action' => 'login'));
     Router::connect('/login', array('controller' => 'security', 'action' => 'login'));
     Router::connect('/logout', array('controller' => 'security', 'action' => 'logout'));
-//Users
-    Router::connect('/users', array('controller' => 'users', 'action' => 'index'));
-//Sports
-    Router::connect('/sport', array('controller' => 'sport', 'action' => 'index'));
+    Router::connect('/add', array('controller' => 'users', 'action' => 'add'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on
