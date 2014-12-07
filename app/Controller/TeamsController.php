@@ -6,6 +6,16 @@ class TeamsController extends AppController {
 	
 	public function index($sportId=null,$teamNameFil=null, $studentNameFil=null, $teamStatusFil=null)
     {
+
+        if ($this->request->is('post'))
+        {
+
+            $sportId=$this->request->data('sportId');
+            $teamNameFil=$this->request->data('teamNameFil');
+            $studentNameFil=$this->request->data('studentNameFil');
+            $teamStatusFil=$this->request->data('teamStatusFil');
+
+        }
         //Se obtiene el "id" del admin
         $uid = $this->Auth->user('id');
         //Se cargan los modelos necesarios para desplegar los resultados para poblar la vista
