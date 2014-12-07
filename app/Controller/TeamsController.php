@@ -3,8 +3,6 @@
 App::uses('CakeEmail', 'Network/Email');
 class TeamsController extends AppController {
     public $helpers = array('Html', 'Form');
-
-    public $resultSet;
 	
 	public function index($sportId=null,$teamNameFil=null, $studentNameFil=null, $teamStatusFil=null)
     {
@@ -49,57 +47,77 @@ class TeamsController extends AppController {
                         //verificar si la coma jala como AND
                         'std.id = Team.student_id'
                     )
+                ),
+                array(
+                    'table' => 'Sports',
+                    'alias' => 'sprt',
+                    'conditions' => array(
+                        //verificar si la coma jala como AND
+                        'Team.sport_id = sprt.id'
+                    )
                 )
             ),
             'conditions' => array('Team.sport_id' =>$sport['Sport']['id'], 'Team.period_id' => $period['Period']['id'],'Team.active' => 1,
                 'Team.name LIKE' => '%'. $teamNameFil . '%', 'std.name LIKE' => '%'. $studentNameFil . '%', 'Team.status LIKE' => '%'. $teamStatusFil . '%',
             ),
-            'fields' => array('Team.name', 'std.name', 'Team.status', 'std.email'),
+            'fields' => array('Team.name', 'std.name', 'Team.status', 'std.email','sprt.id'),
             'order' => 'Team.name ASC'
         ));
+        $emails = array();
+        $i=0;
+        foreach ($teams as $team):
+           $emails[$i]= $team['std']['email'];
+            $i++;
+        endforeach;
 
-        $this->resultSet = $teams;
+
         $this ->set('teams',$teams);
-
+        $this ->set('emails',$emails);
         //$res = Hash::merge($array, $arrayB, $arrayC, $arrayD);
         //$query->select(['id', 'title', 'body']);
     }
 
-    public function sendAll($sportid=null) {
+    public function sendAll($sportId=null,$emails=null) {
+        $this ->set('emails',$emails);
+        if ($this->request->is('post')){
+            //Se obtiene el "id" del admin
+            $uid = $this->Auth->user('id');
+            //Se carga el modelo de Users para obtener el email del admin
+            $this->loadModel('User');
 
-        //Se obtiene el "id" del admin
-        $uid = $this->Auth->user('id');
-        //Se carga el modelo de Users para obtener el email del admin
-        $this->loadModel('Users');
-        //Se obtiene el email del admin
-        $user = $this->User->findById($uid);
+            //Se obtiene el email del admin
+            $user = $this->User->findById($uid);
 
-        //Se obtienen los resultados desplegados en la tabla
-        $resultSet = $this->resultSet;
+            //Se obtienen los emails
 
-        //Se obtienen los emails
-        $emails = $resultSet['Team']['email'];
-        //Se obtienen los paramtetros de la peticion
-        $subject=$this->request->data['subject'];
-        $text=$this->request->data['text'];
 
-        //Se inicializa el subject si no le incluyo uno
-        if (!$subject){
-            $subject = 'Depto. Intramuros (No Responder)';
+
+            //Se obtienen los paramtetros de la peticion
+            $emails=$this->request->data('emails');
+            debug($emails);
+
+            $subject=$this->request->data('subject');
+            $text=$this->request->data('text');
+
+            //Se inicializa el subject si no le incluyo uno
+            if (!$subject){
+                $subject = 'Depto. Intramuros (No Responder)';
+            }
+
+            if ($emails!= null && $text !=null) {
+                foreach ($emails as $email):
+                    debug($email);
+                    // send email with user password
+                    $Email = new CakeEmail('gmail');
+                    $Email->from($user['User']['email']);
+                    $Email->to($email);
+                    $Email->subject($subject);
+                    $Email->send($text);
+                endforeach;
+            }
+
+           // $this->redirect(array('action'=>'index',$sportId));
         }
-
-        if (!$emails && !$text) {
-            foreach ($emails as $email):
-                // send email with user password
-                $Email = new CakeEmail('gmail');
-                $Email->from($user['User']['email']);
-                $Email->to($email);
-                $Email->subject($subject);
-                $Email->send($text);
-            endforeach;
-        }
-
-        $this->redirect(array('action'=>'index',$sportid));
     }
     public function sendOne($sportid=null, $email = null) {
 

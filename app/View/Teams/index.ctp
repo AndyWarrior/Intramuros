@@ -1,5 +1,6 @@
 <div class="container">
     <h1 class="page-header">Equipos</h1>
+    <?php echo $this->Html->link( "Enviar correo a todos",   array('action'=>'sendAll',$teams[0]['sprt']['id'],$emails), array('escape' => false, 'class' => "btn btn-default btn-xs")); ?>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -7,6 +8,7 @@
                 <th>Nombre</th>
                 <th>Capitan</th>
                 <th>Status</th>
+                <th>Email</th>
             </tr>
             </thead>
             <tbody>

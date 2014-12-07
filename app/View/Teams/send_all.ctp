@@ -4,6 +4,7 @@
     echo $this->Form->create(false, array( 'controller'=>'teams', 'action'=>'sendAll'));
     echo $this->Form->input('subject', array('type' => 'text','label' => 'Asunto:'));
     echo $this->Form->input('text', array('type' => 'textarea','label' => 'Texto:'));
+    echo $this->Form->input('emails', array('type' => 'hidden','value' => $emails));
     echo $this->Form->end('Enviar');
     ?>
 </div>
