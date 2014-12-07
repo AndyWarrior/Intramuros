@@ -24,8 +24,8 @@
                     <?php echo $this->Html->link("Edit",   array('action'=>'edit', $user['User']['id']) ); ?> |
                     <?php
                     if( $user['User']['active'] != 0){
-                        echo $this->Html->link(    "Deactivate", array('action'=>'deactivate', $user['User']['id']));}else{
-                        echo $this->Html->link(    "Re-Activate", array('action'=>'activate', $user['User']['id']));
+                        echo $this->Html->link(    "Desactivar", array('action'=>'deactivate', $user['User']['id']));}else{
+                        echo $this->Html->link(    "Activar", array('action'=>'activate', $user['User']['id']));
                     }
                     ?>
                 </td>

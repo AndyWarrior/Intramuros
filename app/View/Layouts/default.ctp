@@ -39,10 +39,7 @@ $user = $this->Session->read('Auth.User');
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+
             </button>
             <a class="navbar-brand" href="#">Intramutos</a>
         </div>
@@ -50,11 +47,13 @@ $user = $this->Session->read('Auth.User');
         <ul class="nav navbar-nav navbar-left">
             <?php if($user['user_type'] == 1) { ?>
                 <li>
-                    <a href="#">SuperAdmin</a>
+                    <?php echo $this->Html->link(
+                        "Super-Admin", array('controller' => 'users', 'action' => 'index'));?>
                 </li>
             <?php } ?>
             <li>
-                <a href="#">Deporte</a>
+                <?php echo $this->Html->link(
+                    "Deportes", array('controller' => 'sports', 'action' => 'index'));?>
             </li>
         </ul>
 
@@ -62,7 +61,8 @@ $user = $this->Session->read('Auth.User');
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"> <?php echo $user['username'] ?> </a></li>
                 <li>
-                    <a href="/logout"><i class="fa fa-power-off"> </i> Log out</a>
+                    <?php echo $this->Html->link(
+                        "Cerrar sesion", array('controller' => 'security', 'action' => 'logout'));?>
                 </li>
             </ul>
         </div>
