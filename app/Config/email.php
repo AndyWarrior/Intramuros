@@ -91,4 +91,12 @@ class EmailConfig {
 		//'headerCharset' => 'utf-8',
 	);
 
+    public $gmail = array(
+        'host' => 'ssl://smtp.gmail.com',
+        'port' => 465,
+        'username' => 'daw.jeopardy@gmail.com',
+        'password' => 'juanpaulo',
+        'transport' => 'Smtp'
+    );
+
 }
