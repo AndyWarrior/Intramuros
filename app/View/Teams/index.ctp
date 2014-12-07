@@ -1,6 +1,6 @@
 <div class="container">
     <h1 class="page-header">Equipos</h1>
-    <?php echo $this->Html->link( "Enviar correo a todos",   array('action'=>'sendAll',$teams[0]['sprt']['id'],$emails), array('escape' => false, 'class' => "btn btn-default btn-xs")); ?>
+    <?php echo $this->Html->link( "Enviar correo a todos",   array('action'=>'sendAll',$sportId,$periodId,$teamNameFil,$studentNameFil,$teamStatusFil), array('escape' => false, 'class' => "btn btn-default btn-xs")); ?>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -9,6 +9,7 @@
                 <th>Capitan</th>
                 <th>Status</th>
                 <th>Email</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -48,12 +49,20 @@
                             break;
                         }
                         ?>
-
                     </td>
                     <td>
                         <?php
                         echo $team['std']['email'];
                         ?>
+                    </td>
+                    <td>
+                        <?php echo $this->Html->link("Editar", array('action'=>'edit', $team['Team']['id'], $sportId) ); ?> |
+                        <?php echo $this->Form->postLink(
+                            'Borrar',
+                            array('action' => 'delete', $team['Team']['id']),
+                            array('confirm' => 'Estas seguro?')
+                        ); ?>|
+                        <?php echo $this->Html->link("Enviar Email", array('action'=>'sendOne',$sportId ,$team['std']['email']) ); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

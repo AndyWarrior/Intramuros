@@ -60,44 +60,80 @@ class TeamsController extends AppController {
             'conditions' => array('Team.sport_id' =>$sport['Sport']['id'], 'Team.period_id' => $period['Period']['id'],'Team.active' => 1,
                 'Team.name LIKE' => '%'. $teamNameFil . '%', 'std.name LIKE' => '%'. $studentNameFil . '%', 'Team.status LIKE' => '%'. $teamStatusFil . '%',
             ),
-            'fields' => array('Team.name', 'std.name', 'Team.status', 'std.email','sprt.id'),
+            'fields' => array('Team.id','Team.active','Team.name', 'std.name', 'Team.status', 'std.email','sprt.id'),
             'order' => 'Team.name ASC'
         ));
-        $emails = array();
-        $i=0;
-        foreach ($teams as $team):
-           $emails[$i]= $team['std']['email'];
-            $i++;
-        endforeach;
-
-
+        //Envio a front end the los resultados
         $this ->set('teams',$teams);
-        $this ->set('emails',$emails);
-        //$res = Hash::merge($array, $arrayB, $arrayC, $arrayD);
-        //$query->select(['id', 'title', 'body']);
+
+        //Actualizacion de variables para enviar
+        $sportId = $sport['Sport']['id'];
+        $periodId =  $period['Period']['id'];
+
+        //Envio de variables a front end
+
+        $this ->set('sportId',$sportId);
+        $this ->set('periodId',$periodId);
+        $this ->set('teamNameFil',$teamNameFil);
+        $this ->set('studentNameFil',$studentNameFil);
+        $this ->set('teamStatusFil',$teamStatusFil);
+
+
+
     }
 
-    public function sendAll($sportId=null,$emails=null) {
-        $this ->set('emails',$emails);
+    public function sendAll($sportId=null,$periodId=null,$teamNameFil=null,$studentNameFil=null,$teamStatusFil=null) {
+
         if ($this->request->is('post')){
+
             //Se obtiene el "id" del admin
             $uid = $this->Auth->user('id');
             //Se carga el modelo de Users para obtener el email del admin
             $this->loadModel('User');
+            //Se cargan los modelos necesarios para ejecutar el query que obtendra los emails
+            $this->loadModel('Period');
+            $this->loadModel('Student');
+            $this->loadModel('Sport');
 
             //Se obtiene el email del admin
             $user = $this->User->findById($uid);
 
-            //Se obtienen los emails
-
-
 
             //Se obtienen los paramtetros de la peticion
-            $emails=$this->request->data('emails');
-            debug($emails);
-
             $subject=$this->request->data('subject');
             $text=$this->request->data('text');
+            $sportId=$this->request->data('sportId');
+            $periodId=$this->request->data('periodId');
+            $teamNameFil=$this->request->data('teamNameFil');
+            $studentNameFil=$this->request->data('studentNameFil');
+            $teamStatusFil=$this->request->data('teamStatusFil');
+
+            //Se obtienen los emails de los equipos en base al deporte y periodo especificados
+            $emails= $this->Team->find('all', array(
+                'joins' => array(
+                    array(
+                        'table' => 'Students',
+                        'alias' => 'std',
+                        'conditions' => array(
+                            //verificar si la coma jala como AND
+                            'std.id = Team.student_id'
+                        )
+                    ),
+                    array(
+                        'table' => 'Sports',
+                        'alias' => 'sprt',
+                        'conditions' => array(
+                            //verificar si la coma jala como AND
+                            'Team.sport_id = sprt.id'
+                        )
+                    )
+                ),
+                'conditions' => array('Team.sport_id' =>$sportId, 'Team.period_id' => $periodId,'Team.active' => 1,
+                    'Team.name LIKE' => '%'. $teamNameFil . '%', 'std.name LIKE' => '%'. $studentNameFil . '%', 'Team.status LIKE' => '%'. $teamStatusFil . '%',
+                ),
+                'fields' => array('std.email'),
+                'order' => 'Team.name ASC'
+            ));
 
             //Se inicializa el subject si no le incluyo uno
             if (!$subject){
@@ -106,49 +142,63 @@ class TeamsController extends AppController {
 
             if ($emails!= null && $text !=null) {
                 foreach ($emails as $email):
-                    debug($email);
                     // send email with user password
                     $Email = new CakeEmail('gmail');
                     $Email->from($user['User']['email']);
-                    $Email->to($email);
+                    $Email->to($email['std']['email']);
                     $Email->subject($subject);
                     $Email->send($text);
                 endforeach;
             }
 
-           // $this->redirect(array('action'=>'index',$sportId));
+           $this->redirect(array('action'=>'index',$sportId));
+        }
+        else{
+            $this ->set('sportId',$sportId);
+            $this ->set('periodId',$periodId);
+            $this ->set('teamNameFil',$teamNameFil);
+            $this ->set('studentNameFil',$studentNameFil);
+            $this ->set('teamStatusFil',$teamStatusFil);
         }
     }
-    public function sendOne($sportid=null, $email = null) {
+    public function sendOne($sportId=null, $email = null) {
+        if ($this->request->is('post')) {
+            //Se obtiene el "id" del admin
+            $uid = $this->Auth->user('id');
+            //Se carga el modelo de Users para obtener el email del admin
+            $this->loadModel('User');
+            //Se obtiene el email del admin
+            $user = $this->User->findById($uid);
 
-        //Se obtiene el "id" del admin
-        $uid = $this->Auth->user('id');
-        //Se carga el modelo de Users para obtener el email del admin
-        $this->loadModel('Users');
-        //Se obtiene el email del admin
-        $user = $this->User->findById($uid);
-
-        //Se obtienen los paramtetros de la peticion
-        $subject=$this->request->data['subject'];
-        $text=$this->request->data['text'];
+            //Se obtienen los paramtetros de la peticion
+            $subject = $this->request->data['subject'];
+            $text = $this->request->data['text'];
+            $sportId = $this->request->data['sportId'];
+            $email = $this->request->data['email'];
 
 
-        //Se inicializa el subject si no le incluyo uno
-        if (!$subject){
-            $subject = 'Depto. Intramuros (No Responder)';
-        }
-        //Se comprueba que hayamos recibido texto y email
-        if (!$text && !$email) {
+            //Se inicializa el subject si no le incluyo uno
+            if (!$subject) {
+                $subject = 'Depto. Intramuros (No Responder)';
+            }
+
+
+            //Se comprueba que hayamos recibido texto y email
+            if ($text != null && $email!=null) {
                 // send email with user password
                 $Email = new CakeEmail('gmail');
                 $Email->from($user['User']['email']);
                 $Email->to($email);
                 $Email->subject($subject);
                 $Email->send($text);
+            }
+
+            $this->redirect(array('action' => 'index', $sportId));
         }
-
-        $this->redirect(array('action'=>'index',$sportid));
-
+        else{
+            $this ->set('sportId',$sportId);
+            $this ->set('email',$email);
+        }
     }
 
 
@@ -186,7 +236,7 @@ class TeamsController extends AppController {
 		}
 	}
 	
-	public function delete($id) {
+	public function delete($id = null) {
 		if ($this->request->is('get')) {
 			throw new MethodNotAllowedException();
 		}
@@ -194,7 +244,7 @@ class TeamsController extends AppController {
 		$data = array('id' => $id, 'active' => 0);
 		$this->Team->save($data);
 
-		return $this->redirect(array('action' => 'index'));
+		$this->redirect(array('action' => 'index'));
 		$this->Session->setFlash(__('Se ha borrado de manera exitosa.'));
 	}
 }
