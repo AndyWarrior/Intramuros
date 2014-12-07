@@ -16,7 +16,7 @@
 <div class="users form">
 
     <h1><?php echo $this->Html->link( "<",   array('action'=>'index') ); ?> Add User</h1>
-    <?php echo $this->Form->create('User');?>
+    <?php echo $this->Form->create('Users');?>
     <fieldset>
         <?php echo $this->Form->input('username', array(
             'class' => 'form-control'));

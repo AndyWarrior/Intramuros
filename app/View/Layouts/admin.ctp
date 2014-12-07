@@ -26,13 +26,13 @@ $user = $this->Session->read('Auth.User');
     echo $this->Html->meta('icon');
 
     echo $this->Html->css('bootstrap.min');
-
     echo $this->Html->css('dashboard');
 
     echo $this->fetch('meta');
     echo $this->fetch('css');
     echo $this->fetch('script');
     ?>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -62,9 +62,7 @@ $user = $this->Session->read('Auth.User');
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"> <?php echo $user['username'] ?> </a></li>
                 <li>
-                    <?php
-                    echo $this->Html->link( "Logout",   array('controller' => 'security', 'action'=>'logout') );
-                    ?>
+                    <a href="/logout"><i class="fa fa-power-off"> </i> Log out</a>
                 </li>
             </ul>
         </div>
