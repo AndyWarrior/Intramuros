@@ -7,11 +7,11 @@
     echo $this->Form->create('Team');
 	
     echo $this->Form->input('name', array(
-        'class' => 'form-control'));
+        'label' => 'Nombre del equipo','class' => 'form-control'));
 		
 	echo $this->Form->input('status', array('label' => 'Estatus del equipo', 'class' => 'form-control','options' =>  array(0 => 'Sin estatus', 1 => 'Campeon', 2 => 'Segunda etapa', 3 => 'No califico', 4 => 'Baja por default', 5 => 'Baja por reglamento')));
 	
-	$deporte = new array();
+	$deporte = array();
 	foreach ($sports as $sport):
 		$deporte[$sport['Sport']['id']] = $sport['Sport']['name'];
 	endforeach;
@@ -20,25 +20,25 @@
 
 	
 	echo $this->Form->input('monday', array(
-                                  'type'=>'checkbox'));
+                                  'label' => 'Lunes','type'=>'checkbox'));
 								  
 	echo $this->Form->input('tuesday', array(
-                                  'type'=>'checkbox'));
+                                  'label' => 'Martes','type'=>'checkbox'));
 	
 	echo $this->Form->input('wednesday', array(
-                                  'type'=>'checkbox'));
+                                  'label' => 'Miercoles','type'=>'checkbox'));
 								  
 	echo $this->Form->input('thursday', array(
-                                  'type'=>'checkbox'));
+                                  'label' => 'Jueves','type'=>'checkbox'));
 								  
 	echo $this->Form->input('friday', array(
-                                  'type'=>'checkbox'));
+                                  'label' => 'Viernes','type'=>'checkbox'));
 	
 	echo $this->Form->input('saturday', array(
-                                  'type'=>'checkbox'));
+                                  'label' => 'Sabado','type'=>'checkbox'));
 								  
 	echo $this->Form->input('sunday', array(
-                                  'type'=>'checkbox'));
+                                  'label' => 'Domingo','type'=>'checkbox'));
 	
     echo $this->Form->input('id', array('type' => 'hidden'));
     echo "<br>";

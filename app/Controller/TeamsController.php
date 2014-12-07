@@ -137,7 +137,7 @@ class TeamsController extends AppController {
     public function add() {
     }
 	
-	public function edit($id = null, $sid = null) {
+	public function edit($id = null, , $sid = null) {
 		$this->loadModel('Sport');
 		if (!$id) {
 			throw new NotFoundException(__('Opcion invalida.'));
