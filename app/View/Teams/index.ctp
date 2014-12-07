@@ -13,28 +13,46 @@
             <?php foreach ($teams as $team): ?>
                 <tr>
 
-                    <td><i class="fa fa-trophy"></i>
+                    <td>
                         <?php
-                        echo $team['Team']['Team.name'];
+                        echo $team['Team']['name'];
                         ?>
                     </td>
-                    <td><i class="fa fa-trophy"></i>
+                    <td>
                         <?php
-                        echo $team['Team']['std.name'];
+                        echo $team['std']['name'];
                         ?>
                     </td>
-                    <td><i class="fa fa-trophy"></i>
+                    <td>
                         <?php
-                        echo $team['Team']['Team.status'];
+                        switch ($team['Team']['status']){
+                            case 0:
+                                echo 'Sin Asignar';
+                            break;
+                            case 1:
+                                echo 'Campeones';
+                            break;
+                            case 2:
+                                echo 'Segunda Etapa';
+                            break;
+                            case 3:
+                                echo 'No clasifico';
+                            break;
+                            case 4:
+                                echo 'Baja por default';
+                            break;
+                            case 5:
+                                echo 'Baja por reglamento';
+                            break;
+                        }
                         ?>
-                    </td>
-                    <td><i class="fa fa-trophy"></i>
-                        <?php
-                        echo $team['Team']['std.email'];
-                        ?>
-                    </td>
 
-
+                    </td>
+                    <td>
+                        <?php
+                        echo $team['std']['email'];
+                        ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             <?php unset($team); ?>

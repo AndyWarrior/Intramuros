@@ -6,22 +6,26 @@ class TeamsController extends AppController {
 
     public $resultSet;
 	
-	public function index($sportId,$teamNameFil, $studentNameFil, $teamStatusFil)
+	public function index($sportId=null,$teamNameFil=null, $studentNameFil=null, $teamStatusFil=null)
     {
         //Se obtiene el "id" del admin
         $uid = $this->Auth->user('id');
         //Se cargan los modelos necesarios para desplegar los resultados para poblar la vista
-        $this->loadModel('Periods');
-        $this->loadModel('Students');
-        $this->loadModel('Sports');
+        $this->loadModel('Period');
+        $this->loadModel('Student');
+        $this->loadModel('Sport');
 
         if ($sportId != null)
+        {
             //Si recibe un sportId inicializa el deporte
             $sport = $this->Sport->findById($sportId);
+        }
         else
+        {
             //Si no recibe un SportId busca el primero asociado al admin
             $sport = $this->Sport->find('first', array(
                 'conditions' => array('user_id' => $uid, 'active' => 1)));
+        }
 
         //Se obtiene el periodo activo
         $period = $this->Period->find('first', array(
@@ -29,11 +33,11 @@ class TeamsController extends AppController {
 
         //Se inicializan los filtros en caso de ver recibido nulos
             if (!$teamNameFil)
-                $teamNameFil = ' ';
+                $teamNameFil = '';
             if (!$teamStatusFil)
-                $teamStatusFil = ' ';
+                $teamStatusFil = '';
             if (!$studentNameFil)
-                $studentNameFil = ' ';
+                $studentNameFil = '';
 
         //Se obtienen los equipos en base al deporte y periodo obtenidos
         $teams= $this->Team->find('all', array(
@@ -41,10 +45,9 @@ class TeamsController extends AppController {
                 array(
                     'table' => 'Students',
                     'alias' => 'std',
-                    'type' => 'NATURAL',
                     'conditions' => array(
                         //verificar si la coma jala como AND
-                        'std.id = Team.student_id', 'std.active' => 1
+                        'std.id = Team.student_id'
                     )
                 )
             ),
@@ -56,14 +59,13 @@ class TeamsController extends AppController {
         ));
 
         $this->resultSet = $teams;
-
         $this ->set('teams',$teams);
 
         //$res = Hash::merge($array, $arrayB, $arrayC, $arrayD);
         //$query->select(['id', 'title', 'body']);
     }
 
-    public function sendAll($subject, $text) {
+    public function sendAll($sportid=null) {
 
         //Se obtiene el "id" del admin
         $uid = $this->Auth->user('id');
@@ -77,6 +79,9 @@ class TeamsController extends AppController {
 
         //Se obtienen los emails
         $emails = $resultSet['Team']['email'];
+        //Se obtienen los paramtetros de la peticion
+        $subject=$this->request->data['subject'];
+        $text=$this->request->data['text'];
 
         //Se inicializa el subject si no le incluyo uno
         if (!$subject){
@@ -94,9 +99,9 @@ class TeamsController extends AppController {
             endforeach;
         }
 
-
+        $this->redirect(array('action'=>'index',$sportid));
     }
-    public function sendOne($subject, $text, $email) {
+    public function sendOne($sportid=null, $email = null) {
 
         //Se obtiene el "id" del admin
         $uid = $this->Auth->user('id');
@@ -104,6 +109,11 @@ class TeamsController extends AppController {
         $this->loadModel('Users');
         //Se obtiene el email del admin
         $user = $this->User->findById($uid);
+
+        //Se obtienen los paramtetros de la peticion
+        $subject=$this->request->data['subject'];
+        $text=$this->request->data['text'];
+
 
         //Se inicializa el subject si no le incluyo uno
         if (!$subject){
@@ -118,6 +128,8 @@ class TeamsController extends AppController {
                 $Email->subject($subject);
                 $Email->send($text);
         }
+
+        $this->redirect(array('action'=>'index',$sportid));
 
     }
 
