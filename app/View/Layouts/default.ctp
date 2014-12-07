@@ -53,7 +53,7 @@ $user = $this->Session->read('Auth.User');
             <?php } ?>
             <li>
                 <?php echo $this->Html->link(
-                    "Deportes", array('controller' => 'sports', 'action' => 'index'));?>
+                    "Deportes", array('controller' => 'teams', 'action' => 'index'));?>
             </li>
         </ul>
 
@@ -74,9 +74,12 @@ $user = $this->Session->read('Auth.User');
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li ><a href="/">Usuarios</a></li>
-                        <li ><a href="/">Deportes</a></li>
-                        <li ><a href="/">Reglamento</a></li>
+                        <li ><?php echo $this->Html->link(
+                                "Usuarios", array('controller' => 'users', 'action' => 'index'));?></li>
+                        <li ><?php echo $this->Html->link(
+                                "Deportes", array('controller' => 'sports', 'action' => 'index'));?></li>
+                        <li ><?php echo $this->Html->link(
+                                "Reglamento", array('controller' => 'rules', 'action' => 'index'));?></li>
                         <li ><a href="/">Reportes</a></li>
                         <li ><a href="/">Aviso General</a></li>
                     </ul>

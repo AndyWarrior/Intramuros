@@ -3,10 +3,11 @@
 App::uses('CakeEmail', 'Network/Email');
 class TeamsController extends AppController {
     public $helpers = array('Html', 'Form');
+
+    var $layout = 'admin';
 	
 	public function index($sportId=null,$teamNameFil=null, $studentNameFil=null, $teamStatusFil=null)
     {
-        $this->layout='admin';
 
         if ($this->request->is('post'))
         {
@@ -184,6 +185,7 @@ class TeamsController extends AppController {
         }
     }
     public function sendOne($sportId=null, $email = null) {
+
         if ($this->request->is('post')) {
             //Se obtiene el "id" del admin
             $uid = $this->Auth->user('id');
@@ -228,6 +230,7 @@ class TeamsController extends AppController {
     }
 	
 	public function edit($id = null, $sid = null) {
+
 		$this->loadModel('Sport');
 		if (!$id) {
 			throw new NotFoundException(__('Opcion invalida.'));
@@ -259,6 +262,7 @@ class TeamsController extends AppController {
 	}
 	
 	public function delete($id = null) {
+
 		if ($this->request->is('get')) {
 			throw new MethodNotAllowedException();
 		}

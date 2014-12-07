@@ -75,7 +75,6 @@ $user = $this->Session->read('Auth.User');
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
                         <?php foreach ($sports as $sport):
-
                           echo "<li >".$this->Html->link($sport['Sport']['name'], array('controller' => 'teams', 'action' => 'index',$sport['Sport']['id']))."</li>";
                         endforeach;
                         unset($sport)
