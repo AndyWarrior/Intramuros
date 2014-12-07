@@ -59,7 +59,6 @@ class TeamsController extends AppController {
         ));
 
         $this->resultSet = $teams;
-
         $this ->set('teams',$teams);
 
         //$res = Hash::merge($array, $arrayB, $arrayC, $arrayD);
