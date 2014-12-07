@@ -86,7 +86,7 @@ class TeamsController extends AppController {
         if (!$emails && !$text) {
             foreach ($emails as $email):
                 // send email with user password
-                $Email = new CakeEmail('default');
+                $Email = new CakeEmail('gmail');
                 $Email->from($user['User']['email']);
                 $Email->to($email);
                 $Email->subject($subject);
@@ -112,7 +112,7 @@ class TeamsController extends AppController {
         //Se comprueba que hayamos recibido texto y email
         if (!$text && !$email) {
                 // send email with user password
-                $Email = new CakeEmail('default');
+                $Email = new CakeEmail('gmail');
                 $Email->from($user['User']['email']);
                 $Email->to($email);
                 $Email->subject($subject);
