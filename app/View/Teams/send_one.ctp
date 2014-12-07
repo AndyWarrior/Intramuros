@@ -1,4 +1,4 @@
-<div class="container">
+
     <h2>Mandar Email a <?php echo $email?></h2>
     <?php
     echo $this->Form->create(false, array( 'controller'=>'teams', 'action'=>'sendOne'));
@@ -9,4 +9,3 @@
     <br>
     <?php echo $this->Form->end('Enviar');
     ?>
-</div>

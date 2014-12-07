@@ -1,4 +1,4 @@
-<div class="container">
+
     <h1 class="page-header">Deportes</h1>
 
     <?php echo $this->Html->link(
@@ -57,4 +57,3 @@
             </tbody>
         </table>
     </div>
-</div>

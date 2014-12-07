@@ -1,4 +1,4 @@
-<div class="container">
+
     <h2>Mandar Email a los equipos selecionados</h2>
     <?php
     echo $this->Form->create(false, array( 'controller'=>'teams', 'action'=>'sendAll'));
@@ -12,4 +12,3 @@
     <br>
     <?php echo $this->Form->end('Enviar');
     ?>
-</div>

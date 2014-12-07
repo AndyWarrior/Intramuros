@@ -1,4 +1,4 @@
-<div class="container">
+
     <h1><?php echo $this->Html->link(
             '< ',
             array('controller' => 'sports', 'action' => 'index')
@@ -45,4 +45,3 @@
     echo $this->Form->submit('Crear deporte', array('class' => 'btn btn-primary btn-lg',  'title' => 'Crear deporte') );
     echo $this->Form->end();
     ?>
-</div>

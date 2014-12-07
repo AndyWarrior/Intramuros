@@ -81,7 +81,8 @@ $user = $this->Session->read('Auth.User');
                         <li ><?php echo $this->Html->link(
                                 "Reglamento", array('controller' => 'rules', 'action' => 'index'));?></li>
                         <li ><a href="/">Reportes</a></li>
-                        <li ><a href="/">Aviso General</a></li>
+                        <li ><?php echo $this->Html->link(
+                                "Aviso General", array('controller' => 'sadmin', 'action' => 'sendAll'));?></li>
                     </ul>
                 </div>
 
