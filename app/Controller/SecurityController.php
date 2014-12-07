@@ -13,11 +13,10 @@ class SecurityController extends AppController {
 
     public function login() {
 
-
         $this->layout='login';
         //if already logged-in, redirect
         if($this->Session->check('Auth.User')){
-            $this->redirect(array('controller' => 'users', 'action' => 'index'));
+            $this->redirect(array('controller' => 'teams', 'action' => 'index'));
         }
 
         // if we get the post information, try to authenticate
@@ -26,18 +25,6 @@ class SecurityController extends AppController {
             if ($this->Auth->login()) {
                 $active = $this->Auth->user('active');
                 if($active) {
-                    $this->loadModel('Sport');
-                    $id = $this->Auth['User']['id'];
-                    $type = $this->Auth['User']['user_type'];
-
-                    // muestra todos los deportes al Super Admin
-                    if($type == 1){
-                        $sports = $this->Sport-find('all');
-
-                    } else {
-                        $sports = $this->Sport->find('all', array(
-                            'conditions' => array('user_id' => $id)));
-                    }
                     $this->redirect($this->Auth->redirectUrl());
                 } else {
                     $this->redirect(array('action' => 'logout'));

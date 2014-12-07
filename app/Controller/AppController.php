@@ -37,7 +37,7 @@ class AppController extends Controller {
         'Session',
         'Auth' => array(
             'loginAction' => array('controller'=>'security', 'action'=>'login'),
-            'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
+            'loginRedirect' => array('controller' => 'teams', 'action' => 'index'),
             'logoutRedirect' => array('controller' => 'security', 'action' => 'login'),
             'authError' => 'Tienes que iniciar sesion',
             'loginError' => 'Usuasio o contraseña invalida'

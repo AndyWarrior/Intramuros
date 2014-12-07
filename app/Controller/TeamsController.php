@@ -6,6 +6,7 @@ class TeamsController extends AppController {
 	
 	public function index($sportId=null,$teamNameFil=null, $studentNameFil=null, $teamStatusFil=null)
     {
+        $this->layout='admin';
 
         if ($this->request->is('post'))
         {
@@ -88,7 +89,18 @@ class TeamsController extends AppController {
         $this ->set('studentNameFil',$studentNameFil);
         $this ->set('teamStatusFil',$teamStatusFil);
 
+        // side-bar
 
+        $type = $this->Auth->User('user_type');
+
+        if($type == 1){
+            $sports = $this->Sport->find('all');
+        } else {
+            $sports = $this->sport->find('all', array(
+                'conditions' => array('user_id' => $uid, 'active' => 1)));
+        }
+
+        $this->set('sports',$sports);
 
     }
 

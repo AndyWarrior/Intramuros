@@ -74,11 +74,12 @@ $user = $this->Session->read('Auth.User');
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li ><a href="/">Usuarios</a></li>
-                        <li ><a href="/">Deportes</a></li>
-                        <li ><a href="/">Reglamento</a></li>
-                        <li ><a href="/">Reportes</a></li>
-                        <li ><a href="/">Aviso General</a></li>
+                        <?php foreach ($sports as $sport):
+
+                          echo "<li >".$this->Html->link($sport['Sport']['name'], array('controller' => 'teams', 'action' => 'index',$sport['Sport']['id']))."</li>";
+                        endforeach;
+                        unset($sport)
+                        ?>
                     </ul>
                 </div>
 
