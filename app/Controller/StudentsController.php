@@ -1,5 +1,5 @@
-<?php 
-
+<?php
+App::uses('CakeEmail', 'Network/Email');
 class StudentsController extends AppController {
     public $helpers = array('Html', 'Form', 'Js');
 
@@ -79,7 +79,7 @@ class StudentsController extends AppController {
             $this->Team->create();
             if ($this->Team->save($this->request->data)) {
                 $this->Session->setFlash(__('Se ha creado el equipo con exito.'));
-                return $this->redirect(array('action' => 'index',$sid));
+                return $this->redirect(array('action' => 'email',$sid));
             }
             $this->Session->setFlash(__('No se ha podido crear el equipo.'));
         }
@@ -160,4 +160,24 @@ class StudentsController extends AppController {
         }
 
 	}
+    function rule($id = null){
+        $this->loadModel('Rule');
+        $rule = $this->Rule->findById(1);
+        $this->set('rule',$rule);
+        $this->set('sid',$id);
+    }
+
+    function email($id = null){
+        $student = $this->Student->findById($id);
+        $this->loadModel('Rule');
+        $rule = $this->Rule->findById(1);
+        $Email = new CakeEmail('gmail');
+        $Email->from("intramuros@itesm.mx");
+        $Email->to($student['Student']['email']);
+        $Email->subject("Reglamneto de Intramuros");
+        $Email->send($rule['Rule']['rule']);
+
+        $this->redirect(array('action'=>'index',$id));
+
+    }
 }

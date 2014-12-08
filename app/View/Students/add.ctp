@@ -81,7 +81,9 @@
 	echo $this->Form->input('student_id', array('type' => 'hidden', 'default' => $sid));
 	
 	echo $this->Form->input('period_id', array('type' => 'hidden', 'default' => $period['Period']['id']));
-	
+    echo "<br>";
+    echo "Acepto el ".$this->Html->link("reglamento", array('action'=>'rule', $sid), array('target' => '_blank') )." de Intramuros <input name='check' type='checkbox' required/>";
+    echo "<br>";
     echo "<br>";
     echo $this->Form->submit('Crear equipo', array('class' => 'btn btn-primary btn-lg',  'title' => 'Crear equipo') );
     echo $this->Form->end();
