@@ -82,8 +82,93 @@ class SadminController extends AppController {
 
     }
 
+    public function rptActionLogs()
+    {
+
+    }
+    public function rptTeams($teamNameFil=null, $studentNameFil=null, $teamStatusFil=null,$sportNameFil=null, $sportCategoryFil=null, $periodNameFil=null)
+    {
+        if ($this->request->is('post'))
+        {
+            //Filtros
+            $teamNameFil=$this->request->data('teamNameFil');
+            $teamStatusFil=$this->request->data('teamStatusFil');
+            $studentNameFil=$this->request->data('studentNameFil');
+            $sportNameFil=$this->request->data('sportNameFil');
+            $sportCategoryFil=$this->request->data('sportCategoryFil');
+            $periodNameFil=$this->request->data('periodNameFil');
 
 
+        }
+        //Se obtiene el "id" del admin
+        $uid = $this->Auth->user('id');
+        //Se cargan los modelos necesarios para desplegar los resultados para poblar la vista
+        $this->loadModel('Period');
+        $this->loadModel('Student');
+        $this->loadModel('Sport');
+        $this->loadModel('Team');
+
+
+        //Se obtiene el periodo activo
+        $period = $this->Period->find('first', array(
+            'conditions' => array('active' => 1)));
+
+        //Se inicializan los filtros en caso de ver recibido nulos
+        if (!$teamNameFil)
+            $teamNameFil = '';
+        if (!$teamStatusFil)
+            $teamStatusFil = '';
+        if (!$studentNameFil)
+            $studentNameFil = '';
+        if (!$sportNameFil)
+            $sportNameFil = '';
+        if (!$sportCategoryFil)
+            $sportCategoryFil = '';
+        if (!$periodNameFil)
+            $periodNameFil = '';
+
+        //Se obtienen los equipos en base al deporte y periodo obtenidos
+        $teams= $this->Team->find('all', array(
+            'joins' => array(
+                array(
+                    'table' => 'Students',
+                    'alias' => 'std',
+                    'conditions' => array(
+                        //verificar si la coma jala como AND
+                        'std.id = Team.student_id'
+                    )
+                ),
+                array(
+                    'table' => 'Sports',
+                    'alias' => 'sprt',
+                    'conditions' => array(
+                        //verificar si la coma jala como AND
+                        'Team.sport_id = sprt.id'
+                    )
+                ),
+                array(
+                    'table' => 'Periods',
+                    'alias' => 'prd',
+                    'conditions' => array(
+                        //verificar si la coma jala como AND
+                        'Team.period_id = prd.id'
+                    )
+                )
+
+            ),
+            'conditions' => array('Team.period_id' => $period['Period']['id'],'Team.active' => 1
+            ,'Team.name LIKE' => '%'. $teamNameFil . '%', 'std.name LIKE' => '%'. $studentNameFil . '%', 'Team.status LIKE' => '%'. $teamStatusFil . '%',
+                'sprt.name LIKE' => '%'. $sportNameFil . '%','sprt.category LIKE' => '%'. $sportCategoryFil . '%',
+                'prd.period LIKE' => '%'. $periodNameFil . '%'
+            ),
+            'fields' => array('Team.name', 'std.name', 'Team.status','sprt.name','sprt.category', 'prd.period'),
+            'order' => 'Team.name ASC'
+        ));
+        //Envio a front end the los resultados
+        $this ->set('teams',$teams);
+
+
+    }
     public function add() {
     }
 	
