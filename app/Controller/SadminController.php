@@ -262,6 +262,48 @@ class SadminController extends AppController {
 
 
     }
+	
+	public function changePeriod() {
+		$this->loadModel('Period');
+		$this->loadModel('Team');
+		$period = $this->Period->find('first', array(
+                'conditions' => array('active' => 1)
+            ));
+		
+		if(substr($period['Period']['period'],0,2) === 'EM') {
+			$newperiod = array('period' => 'VE'.substr($period['Period']['period'],2,4));
+		}
+		else if(substr($period['Period']['period'],0,2) === 'VE') {
+			$newperiod = array('period' => 'AD'.substr($period['Period']['period'],2,4));
+		}
+		else if(substr($period['Period']['period'],0,2) === 'AD') {
+			$year = intval(substr($period['Period']['period'],2,4)) + 1;
+			$newperiod = array('period' => 'EM'.$year);
+		}
+		
+		
+		$oldperiod = array('id' => $period['Period']['id'], 'active' => 0);
+		$this->Period->save($oldperiod);
+		
+		$this->Period->create();
+        $this->Period->save($newperiod);
+		
+		
+		
+		$teams = $this->Team->find('all', array(
+                'conditions' => array('active' => 1)
+            ));
+			
+		foreach ($teams as $team):
+			$data = array('id' => $team['Team']['id'], 'active' => 0);
+			$this->Team->save($data);
+		endforeach;
+		unset($team);
+		
+		return $this->redirect(array('controller' => 'users', 'action' => 'index'));
+		$this->Session->setFlash(__('Se ha iniciado un nuevo periodo.'));
+		
+    }
 
     public function add() {
     }
