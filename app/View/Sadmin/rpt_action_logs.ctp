@@ -1,6 +1,7 @@
 
 
 <h1> Reporte de actividad de los usuarios </h1>
+
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>

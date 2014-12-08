@@ -206,7 +206,7 @@ class SadminController extends AppController {
         $period = $this->Period->find('first', array(
             'conditions' => array('active' => 1)));
 
-        //Se inicializan los filtros en caso de ver recibido nulos
+        //Se inicializan los filtros en caso de haber recibido nulos
         if (!$teamNameFil)
             $teamNameFil = '';
         if (!$teamStatusFil)
