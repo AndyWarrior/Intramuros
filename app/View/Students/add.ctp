@@ -11,7 +11,7 @@
 			
 	$deporte = array();
 	foreach ($sports as $sport):
-		$deporte[$sport['Sport']['id']] = $sport['Sport']['name'];
+		$deporte[$sport['Sport']['id']] = $sport['Sport']['name']."-".$sport['Sport']['category'];
 	endforeach;
 	
 	echo $this->Form->input('sport_id', array('label' => 'Deporte del equipo', 'class' => 'form-control','options' => $deporte ));
