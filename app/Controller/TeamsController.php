@@ -96,7 +96,9 @@ class TeamsController extends AppController {
         $type = $this->Auth->User('user_type');
 
         if($type == 1){
-            $sports = $this->Sport->find('all');
+            $sports = $this->Sport->find('all', array(
+                'order' => array('name' => 'ASC')
+            ));
         } else {
             $sports = $this->sport->find('all', array(
                 'conditions' => array('user_id' => $uid, 'active' => 1)));
