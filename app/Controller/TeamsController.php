@@ -8,6 +8,7 @@ class TeamsController extends AppController {
 	
 	public function index($sportId=null,$teamNameFil=null, $studentNameFil=null, $teamStatusFil=null)
     {
+        $type = $this->Auth->User('user_type');
 
         if ($this->request->is('post'))
         {
@@ -32,9 +33,15 @@ class TeamsController extends AppController {
         }
         else
         {
+            if($type == 1){
+                $sport = $this->Sport->find('first', array(
+                    'order' => array('name' => 'ASC')
+                ));
+            } else {
             //Si no recibe un SportId busca el primero asociado al admin
             $sport = $this->Sport->find('first', array(
                 'conditions' => array('user_id' => $uid, 'active' => 1)));
+            }
         }
 
         //Se obtiene el periodo activo
@@ -86,21 +93,19 @@ class TeamsController extends AppController {
 
         $this ->set('sportId',$sportId);
         $this ->set('sportName',$sport['Sport']['name']);
+        $this ->set('sportCategory',$sport['Sport']['category']);
         $this ->set('periodId',$periodId);
         $this ->set('teamNameFil',$teamNameFil);
         $this ->set('studentNameFil',$studentNameFil);
         $this ->set('teamStatusFil',$teamStatusFil);
 
         // side-bar
-
-        $type = $this->Auth->User('user_type');
-
         if($type == 1){
             $sports = $this->Sport->find('all', array(
                 'order' => array('name' => 'ASC')
             ));
         } else {
-            $sports = $this->sport->find('all', array(
+            $sports = $this->Sport->find('all', array(
                 'order' => array('name' => 'ASC'),
                 'conditions' => array('user_id' => $uid, 'active' => 1)));
         }
@@ -264,7 +269,7 @@ class TeamsController extends AppController {
         //sidebar
         $type = $this->Auth->User('user_type');
         if($type != 1){
-            $sports = $this->sport->find('all', array(
+            $sports = $this->Sport->find('all', array(
                 'order' => array('name' => 'ASC'),
                 'conditions' => array('user_id' => $id, 'active' => 1)));
         }
