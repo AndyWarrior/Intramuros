@@ -3,9 +3,21 @@
 App::uses('CakeEmail', 'Network/Email');
 class TeamsController extends AppController {
     public $helpers = array('Html', 'Form');
+
+    var $layout = 'admin';
 	
 	public function index($sportId=null,$teamNameFil=null, $studentNameFil=null, $teamStatusFil=null)
     {
+
+        if ($this->request->is('post'))
+        {
+
+            $sportId=$this->request->data('sportId');
+            $teamNameFil=$this->request->data('teamNameFil');
+            $studentNameFil=$this->request->data('studentNameFil');
+            $teamStatusFil=$this->request->data('teamStatusFil');
+
+        }
         //Se obtiene el "id" del admin
         $uid = $this->Auth->user('id');
         //Se cargan los modelos necesarios para desplegar los resultados para poblar la vista
@@ -60,7 +72,7 @@ class TeamsController extends AppController {
             'conditions' => array('Team.sport_id' =>$sport['Sport']['id'], 'Team.period_id' => $period['Period']['id'],'Team.active' => 1,
                 'Team.name LIKE' => '%'. $teamNameFil . '%', 'std.name LIKE' => '%'. $studentNameFil . '%', 'Team.status LIKE' => '%'. $teamStatusFil . '%',
             ),
-            'fields' => array('Team.id','Team.active','Team.name', 'std.name', 'Team.status', 'std.email','sprt.id'),
+            'fields' => array('Team.id','Team.active','Team.name', 'std.name', 'Team.status', 'std.email','sprt.id','sprt.name'),
             'order' => 'Team.name ASC'
         ));
         //Envio a front end the los resultados
@@ -73,12 +85,24 @@ class TeamsController extends AppController {
         //Envio de variables a front end
 
         $this ->set('sportId',$sportId);
+        $this ->set('sportName',$sport['Sport']['name']);
         $this ->set('periodId',$periodId);
         $this ->set('teamNameFil',$teamNameFil);
         $this ->set('studentNameFil',$studentNameFil);
         $this ->set('teamStatusFil',$teamStatusFil);
 
+        // side-bar
 
+        $type = $this->Auth->User('user_type');
+
+        if($type == 1){
+            $sports = $this->Sport->find('all');
+        } else {
+            $sports = $this->sport->find('all', array(
+                'conditions' => array('user_id' => $uid, 'active' => 1)));
+        }
+
+        $this->set('sports',$sports);
 
     }
 
@@ -162,6 +186,7 @@ class TeamsController extends AppController {
         }
     }
     public function sendOne($sportId=null, $email = null) {
+
         if ($this->request->is('post')) {
             //Se obtiene el "id" del admin
             $uid = $this->Auth->user('id');
@@ -206,6 +231,7 @@ class TeamsController extends AppController {
     }
 	
 	public function edit($id = null, $sid = null) {
+
 		$this->loadModel('Sport');
 		if (!$id) {
 			throw new NotFoundException(__('Opcion invalida.'));
@@ -237,6 +263,7 @@ class TeamsController extends AppController {
 	}
 	
 	public function delete($id = null) {
+
 		if ($this->request->is('get')) {
 			throw new MethodNotAllowedException();
 		}

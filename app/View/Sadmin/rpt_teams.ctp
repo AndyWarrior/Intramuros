@@ -1,14 +1,8 @@
-    <h1 class="page-header"><?php echo $sportName ?></h1>
-    <?php echo $this->Html->link( "Enviar correo a todos",   array('action'=>'sendAll',$sportId,$periodId,$teamNameFil,$studentNameFil,$teamStatusFil),
-        array('escape' => false, 'class' => "btn btn-default btn-xs")); ?>
+<div class="container">
+    <h1 class="page-header">Reporte de Equipos</h1>
+
     <?php
-    echo $this->Form->create(false, array( 'controller'=>'teams', 'action'=>'index'));
-    echo $this->Form->input('sportId', array('type' => 'hidden','value' => $sportId));
-
-
-
-
-    ?>
+    echo $this->Form->create(false, array( 'controller'=>'sadmin', 'action'=>'rptTeams'));?>
 
 
 
@@ -19,8 +13,9 @@
                 <th>Filtrar Por Nombre</th>
                 <th>Filtrar Por Delegado</th>
                 <th>Filtrar Por Status</th>
-                <th></th>
-                <th></th>
+                <th>Filtrar Por Deporte</th>
+                <th>Filtrar Por Categoria</th>
+                <th>Filtrar Por Periodo</th>
             </tr>
             <tr>
 
@@ -31,7 +26,9 @@
                             4 => 'No clasifico', 5 => 'Baja por default', 6 => 'Baja por reglamento'
                         )));?>
                 </th>
-                <th></th>
+                <th><?php echo $this->Form->input('sportNameFil', array('type' => 'text','label' => '', 'class' =>'form control'));?></th>
+                <th><?php echo $this->Form->input('sportCategoryFil', array('type' => 'text','label' => '', 'class' =>'form control'));?></th>
+                <th><?php echo $this->Form->input('periodNameFil', array('type' => 'text','label' => '', 'class' =>'form control'));?></th>
                 <th><?php  echo $this->Form->end('Buscar'); ?></th>
             </tr>
             <th></th>
@@ -41,11 +38,12 @@
             <th></th>
 
             <tr>
-                <th>Nombre</th>
+                <th>Nombre del Equipo</th>
                 <th>Delegado</th>
                 <th>Status</th>
-                <th>Email</th>
-                <th>Actions</th>
+                <th>Deporte</th>
+                <th>Categoria</th>
+                <th>Periodo</th>
             </tr>
             </thead>
             <tbody>
@@ -88,21 +86,24 @@
                     </td>
                     <td>
                         <?php
-                        echo $team['std']['email'];
+                        echo $team['sprt']['name'];
                         ?>
                     </td>
                     <td>
-                        <?php echo $this->Html->link("Editar", array('action'=>'edit', $team['Team']['id'], $sportId) ); ?> |
-                        <?php echo $this->Form->postLink(
-                            'Borrar',
-                            array('action' => 'delete', $team['Team']['id']),
-                            array('confirm' => 'Estas seguro?')
-                        ); ?>|
-                        <?php echo $this->Html->link("Enviar Email", array('action'=>'sendOne',$sportId ,$team['std']['email']) ); ?>
+                        <?php
+                        echo $team['sprt']['category'];
+                        ?>
                     </td>
+                    <td>
+                        <?php
+                        echo $team['prd']['period'];
+                        ?>
+                    </td>
+
                 </tr>
             <?php endforeach; ?>
             <?php unset($team); ?>
             </tbody>
         </table>
     </div>
+</div>

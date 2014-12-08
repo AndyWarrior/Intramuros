@@ -13,11 +13,10 @@ class SecurityController extends AppController {
 
     public function login() {
 
-        $this->loadModel('User');
         $this->layout='login';
         //if already logged-in, redirect
         if($this->Session->check('Auth.User')){
-            $this->redirect(array('controller' => 'users', 'action' => 'index'));
+            $this->redirect(array('controller' => 'teams', 'action' => 'index'));
         }
 
         // if we get the post information, try to authenticate

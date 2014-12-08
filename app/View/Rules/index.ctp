@@ -1,4 +1,4 @@
-<div class="container">
+
     <h1 class="page-header">Reglamento</h1>
 
     
@@ -30,4 +30,3 @@
         array('controller' => 'rules', 'action' => 'edit',1),
         array('escape' => false, 'class' => "btn btn-primary btn-lg")
     ); ?>
-</div>

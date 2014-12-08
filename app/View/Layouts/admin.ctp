@@ -74,15 +74,11 @@ $user = $this->Session->read('Auth.User');
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li ><?php echo $this->Html->link(
-                                "Usuarios", array('controller' => 'users', 'action' => 'index'));?></li>
-                        <li ><?php echo $this->Html->link(
-                                "Deportes", array('controller' => 'sports', 'action' => 'index'));?></li>
-                        <li ><?php echo $this->Html->link(
-                                "Reglamento", array('controller' => 'rules', 'action' => 'index'));?></li>
-                        <li ><a href="/">Reportes</a></li>
-                        <li ><?php echo $this->Html->link(
-                                "Aviso General", array('controller' => 'sadmin', 'action' => 'sendAll'));?></li>
+                        <?php foreach ($sports as $sport):
+                          echo "<li >".$this->Html->link($sport['Sport']['name']."-".$sport['Sport']['category'], array('controller' => 'teams', 'action' => 'index',$sport['Sport']['id']))."</li>";
+                        endforeach;
+                        unset($sport)
+                        ?>
                     </ul>
                 </div>
 

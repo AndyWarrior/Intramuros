@@ -29,7 +29,8 @@ class UsersController extends AppController
 
     public function edit($id = null) {
 
-        $user = $this->User->find('first', array('id' => $id));
+        $user = $this->User->find('first', array(
+            'conditions' =>array('id' => $id)));
 
         if ($this->request->is('post') || $this->request->is('put')) {
             $this->User->id = $id;
