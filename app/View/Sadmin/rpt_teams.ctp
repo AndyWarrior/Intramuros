@@ -45,6 +45,7 @@
             <tr>
 
                 <td>
+
                     <?php echo $this->Html->link($team['Team']['name'], array('action'=>'view', $team['Team']['id']) ); ?>
                 </td>
                 <td>

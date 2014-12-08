@@ -334,6 +334,22 @@ class TeamsController extends AppController {
 	}
 	
 	public function view($id=null, $sid=null) {
+        $type = $this->Auth->User('user_type');
+        $this->loadModel('Sport');
+        //Se obtiene el "id" del admin
+        $uid = $this->Auth->user('id');
+        $this->loadModel('Sport');
+        if($type == 1){
+            $sports = $this->Sport->find('all', array(
+                'order' => array('name' => 'ASC'),
+                'conditions' => array('active' => 1)
+            ));
+        } else {
+            $sports = $this->Sport->find('all', array(
+                'order' => array('name' => 'ASC'),
+                'conditions' => array('user_id' => $uid, 'active' => 1)));
+        }
+        $this->set('sports',$sports);
 		$this->loadModel('Student');
 		$team = $this->Team->findById($id);
 		$student = $this->Student->findById($team['Team']['student_id']);

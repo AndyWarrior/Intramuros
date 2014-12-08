@@ -245,7 +245,7 @@ class SadminController extends AppController {
                 'sprt.name LIKE' => '%'. $sportNameFil . '%','sprt.category LIKE' => '%'. $sportCategoryFil . '%',
                 'prd.period LIKE' => '%'. $periodNameFil . '%'
             ),
-            'fields' => array('Team.name', 'std.name', 'Team.status','sprt.name','sprt.category', 'prd.period'),
+            'fields' => array('Team.name', 'std.name', 'Team.status','sprt.name','sprt.category', 'prd.period', 'Team.id'),
             'order' => 'Team.name ASC'
         ));
         //Envio a front end the los resultados
