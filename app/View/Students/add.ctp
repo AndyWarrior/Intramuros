@@ -1,3 +1,41 @@
+<script>
+
+    function check(){
+        document.getElementById("TeamMonday").disabled = false;
+        document.getElementById("TeamTuesday").disabled = false;
+        document.getElementById("TeamWednesday").disabled = false;
+        document.getElementById("TeamThursday").disabled = false;
+        document.getElementById("TeamFriday").disabled = false;
+        document.getElementById("TeamSaturday").disabled = false;
+        document.getElementById("TeamSunday").disabled = false;
+    var sport = document.getElementById("TeamSportId");
+    var sportId = sport.options[sport.selectedIndex].value;
+    $.ajax({
+        type: "POST",
+        url: '<?php echo Router::url(array('controller' => 'students', 'action' => 'check')); ?>',
+        data: {
+            sportId: sportId
+        },
+        success: function(data){
+            if(data.charAt(0) == '0')
+                document.getElementById("TeamMonday").disabled = true;
+            if(data.charAt(1) == '0')
+                document.getElementById("TeamTuesday").disabled = true;
+            if(data.charAt(2) == '0')
+                document.getElementById("TeamWednesday").disabled = true;
+            if(data.charAt(3) == '0')
+                document.getElementById("TeamThursday").disabled = true;
+            if(data.charAt(4) == '0')
+                document.getElementById("TeamFriday").disabled = true;
+            if(data.charAt(5) == '0')
+                document.getElementById("TeamSaturday").disabled = true;
+            if(data.charAt(6) == '0')
+                document.getElementById("TeamSunday").disabled = true;
+        }
+    });
+    }
+</script>
+
 <div class="container">
     <h1><?php echo $this->Html->link(
             '< ',
@@ -14,7 +52,7 @@
 		$deporte[$sport['Sport']['id']] = $sport['Sport']['name']."-".$sport['Sport']['category'];
 	endforeach;
 	
-	echo $this->Form->input('sport_id', array('label' => 'Deporte del equipo', 'class' => 'form-control','options' => $deporte ));
+	echo $this->Form->input('sport_id', array('empty'=>true,'onchange' => 'check()' ,'label' => 'Deporte del equipo', 'class' => 'form-control','options' => $deporte ));
 
 	
 	echo $this->Form->input('monday', array(
