@@ -333,6 +333,15 @@ class TeamsController extends AppController {
 		}
 	}
 	
+	public function view($id=null, $sid=null) {
+		$this->loadModel('Student');
+		$team = $this->Team->findById($id);
+		$student = $this->Student->findById($team['Team']['student_id']);
+		$this->set('student',$student);
+		$this->set('team',$team);
+		$this->set('sid',$sid);
+	}
+	
 	public function delete($id = null) {
 
 		if ($this->request->is('get')) {

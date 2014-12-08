@@ -312,6 +312,15 @@ class SadminController extends AppController {
 
 	}
 	
+	public function view($id=null) {
+		$this->loadModel('Student');
+		$this->loadModel('Team');
+		$team = $this->Team->findById($id);
+		$student = $this->Student->findById($team['Team']['student_id']);
+		$this->set('student',$student);
+		$this->set('team',$team);
+	}
+	
 	public function delete($id = null) {
 
 	}
