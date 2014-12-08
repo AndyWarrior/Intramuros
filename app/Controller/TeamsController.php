@@ -72,7 +72,7 @@ class TeamsController extends AppController {
             'conditions' => array('Team.sport_id' =>$sport['Sport']['id'], 'Team.period_id' => $period['Period']['id'],'Team.active' => 1,
                 'Team.name LIKE' => '%'. $teamNameFil . '%', 'std.name LIKE' => '%'. $studentNameFil . '%', 'Team.status LIKE' => '%'. $teamStatusFil . '%',
             ),
-            'fields' => array('Team.id','Team.active','Team.name', 'std.name', 'Team.status', 'std.email','sprt.id'),
+            'fields' => array('Team.id','Team.active','Team.name', 'std.name', 'Team.status', 'std.email','sprt.id','sprt.name'),
             'order' => 'Team.name ASC'
         ));
         //Envio a front end the los resultados
@@ -85,6 +85,7 @@ class TeamsController extends AppController {
         //Envio de variables a front end
 
         $this ->set('sportId',$sportId);
+        $this ->set('sportName',$sport['Sport']['name']);
         $this ->set('periodId',$periodId);
         $this ->set('teamNameFil',$teamNameFil);
         $this ->set('studentNameFil',$studentNameFil);

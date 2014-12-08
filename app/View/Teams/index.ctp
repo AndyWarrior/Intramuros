@@ -1,4 +1,4 @@
-    <h1 class="page-header">Equipos</h1>
+    <h1 class="page-header"><?php echo $sportName ?></h1>
     <?php echo $this->Html->link( "Enviar correo a todos",   array('action'=>'sendAll',$sportId,$periodId,$teamNameFil,$studentNameFil,$teamStatusFil),
         array('escape' => false, 'class' => "btn btn-default btn-xs")); ?>
     <?php
