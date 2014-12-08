@@ -174,6 +174,12 @@ class TeamsController extends AppController {
                     $Email->send($text);
                 endforeach;
             }
+			
+			$this->loadModel('Actionlog');
+			date_default_timezone_set('America/Monterrey');
+			$action = array('user_id' => $this->Auth->user('id'), 'action' => 'Mandar correo general', 'timestamp' => date('Y-m-d h:i:s'));
+			$this->Actionlog->create();
+			$this->Actionlog->save($action);
 
            $this->redirect(array('action'=>'index',$sportId));
         }
@@ -217,7 +223,12 @@ class TeamsController extends AppController {
                 $Email->subject($subject);
                 $Email->send($text);
             }
-
+			
+		$this->loadModel('Actionlog');
+		date_default_timezone_set('America/Monterrey');
+		$action = array('user_id' => $this->Auth->user('id'), 'action' => 'Mandar correo a equipo', 'timestamp' => date('Y-m-d h:i:s'));
+		$this->Actionlog->create();
+		$this->Actionlog->save($action);
             $this->redirect(array('action' => 'index', $sportId));
         }
         else{
@@ -251,6 +262,11 @@ class TeamsController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			$this->Team->id = $id;
 			if ($this->Team->save($this->request->data)) {
+					$this->loadModel('Actionlog');
+					date_default_timezone_set('America/Monterrey');
+					$action = array('user_id' => $this->Auth->user('id'), 'action' => 'Editar informacion de un equipo', 'timestamp' => date('Y-m-d h:i:s'));
+					$this->Actionlog->create();
+					$this->Actionlog->save($action);
 				$this->Session->setFlash(__('Se ha guardado exitosamente la informacion.'));
 				return $this->redirect(array('action' => 'index', $sid));
 			}
@@ -270,6 +286,12 @@ class TeamsController extends AppController {
 		
 		$data = array('id' => $id, 'active' => 0);
 		$this->Team->save($data);
+		
+		$this->loadModel('Actionlog');
+		date_default_timezone_set('America/Monterrey');
+		$action = array('user_id' => $this->Auth->user('id'), 'action' => 'Eliminar equipo de un torneo', 'timestamp' => date('Y-m-d h:i:s'));
+		$this->Actionlog->create();
+		$this->Actionlog->save($action);
 
 		$this->redirect(array('action' => 'index'));
 		$this->Session->setFlash(__('Se ha borrado de manera exitosa.'));

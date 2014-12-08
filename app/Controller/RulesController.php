@@ -20,6 +20,11 @@ class RulesController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			$this->Rule->id = $id;
 			if ($this->Rule->save($this->request->data)) {
+				$this->loadModel('Actionlog');
+				date_default_timezone_set('America/Monterrey');
+				$action = array('user_id' => $this->Auth->user('id'), 'action' => 'Editar reglamento de los torneos', 'timestamp' => date('Y-m-d h:i:s'));
+				$this->Actionlog->create();
+				$this->Actionlog->save($action);
 				$this->Session->setFlash(__('Se ha actualizado el reglamento.'));
 				return $this->redirect(array('action' => 'index'));
 			}

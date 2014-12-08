@@ -19,6 +19,11 @@ class SportsController extends AppController {
 		if ($this->request->is('post')) {
             $this->Sport->create();
             if ($this->Sport->save($this->request->data)) {
+				$this->loadModel('Actionlog');
+				date_default_timezone_set('America/Monterrey');
+				$action = array('user_id' => $this->Auth->user('id'), 'action' => 'Crear nuevo deporte', 'timestamp' => date('Y-m-d h:i:s'));
+				$this->Actionlog->create();
+				$this->Actionlog->save($action);
                 $this->Session->setFlash(__('Se ha creado el deporte con exito.'));
                 return $this->redirect(array('action' => 'index'));
             }
@@ -42,6 +47,11 @@ class SportsController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			$this->Sport->id = $id;
 			if ($this->Sport->save($this->request->data)) {
+				$this->loadModel('Actionlog');
+				date_default_timezone_set('America/Monterrey');
+				$action = array('user_id' => $this->Auth->user('id'), 'action' => 'Editar informacion de deporte', 'timestamp' => date('Y-m-d h:i:s'));
+				$this->Actionlog->create();
+				$this->Actionlog->save($action);
 				$this->Session->setFlash(__('Se ha actualizado el deporte.'));
 				return $this->redirect(array('action' => 'index'));
 			}
@@ -60,6 +70,12 @@ class SportsController extends AppController {
 		
 		$data = array('id' => $id, 'active' => 0);
 		$this->Sport->save($data);
+		
+		$this->loadModel('Actionlog');
+		date_default_timezone_set('America/Monterrey');
+		$action = array('user_id' => $this->Auth->user('id'), 'action' => 'Eliminar deporte de la lista', 'timestamp' => date('Y-m-d h:i:s'));
+		$this->Actionlog->create();
+		$this->Actionlog->save($action);
 
 		return $this->redirect(array('action' => 'index'));
 		$this->Session->setFlash(__('Se ha borrado de manera exitosa.'));
