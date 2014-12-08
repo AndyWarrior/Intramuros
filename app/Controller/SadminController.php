@@ -169,7 +169,15 @@ class SadminController extends AppController {
 
     public function rptActionLogs()
     {
-
+		$this->loadModel('Actionlog');
+		$this->loadModel('User');
+		$logs = $this->Actionlog->find('all', array(
+                'order' => array('timestamp' => 'DESC')
+            ));
+		$users = $this->User->find('all');
+		
+		$this ->set('logs',$logs);
+		$this ->set('users',$users);
     }
     public function rptTeams($teamNameFil=null, $studentNameFil=null, $teamStatusFil=null,$sportNameFil=null, $sportCategoryFil=null, $periodNameFil=null)
     {
