@@ -1,4 +1,4 @@
-<div class="container">
+
     <h1 class="page-header">Reporte de Equipos</h1>
 
     <?php
@@ -6,7 +6,7 @@
 
 
 
-    <div class="table-responsive">
+
         <table class="table table-striped">
             <thead>
             <tr>
@@ -105,5 +105,4 @@
             <?php unset($team); ?>
             </tbody>
         </table>
-    </div>
-</div>
+    <?php echo $this->Html->link( "PDF",   array('action'=>'viewPdf'), array('escape' => false, 'class' => "btn btn-primary btn-lg")); ?>
