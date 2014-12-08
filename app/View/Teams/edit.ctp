@@ -9,7 +9,7 @@
     echo $this->Form->input('name', array(
         'label' => 'Nombre del equipo','class' => 'form-control'));
 		
-	echo $this->Form->input('status', array('label' => 'Estatus del equipo', 'class' => 'form-control','options' =>  array(1 => 'Sin asignars', 2 => 'Campeon', 3 => 'Segunda etapa', 4 => 'No califico', 5 => 'Baja por default', 6 => 'Baja por reglamento')));
+	echo $this->Form->input('status', array('label' => 'Estatus del equipo', 'class' => 'form-control','options' =>  array(1 => 'Sin asignar', 2 => 'Campeon', 3 => 'Segunda etapa', 4 => 'No califico', 5 => 'Baja por default', 6 => 'Baja por reglamento')));
 	
 	$deporte = array();
 	foreach ($sports as $sport):

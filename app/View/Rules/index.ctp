@@ -14,7 +14,7 @@
             <?php foreach ($rules as $rule): ?>
                 <tr>
                     <td>
-                        <?php echo $rule['Rule']['rule']; ?>
+                        <?php echo nl2br($rule['Rule']['rule']); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
