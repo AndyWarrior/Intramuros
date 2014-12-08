@@ -3,11 +3,21 @@
 class RulesController extends AppController {
     public $helpers = array('Html', 'Form');
 
+    var $layout = 'superadmin';
+
     public function index() {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 		$this->set('rules', $this->Rule->find('all'));
     }
 	
 	public function edit($id = null) {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 		if (!$id) {
 			throw new NotFoundException(__('Reglamento invalido'));
 		}
