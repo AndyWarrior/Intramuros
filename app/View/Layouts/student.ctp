@@ -44,9 +44,17 @@ $user = $this->Session->read('Auth.User');
             <a class="navbar-brand" href="#">Intramuros</a>
         </div>
 
+        <ul class="nav navbar-nav navbar-left">
+            <li>
+                <?php echo $this->Html->link(
+                    "Editar Información", array('action' => 'edit', $sid));?>
+            </li>
+        </ul>
+
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"> <?php echo $sid ?> </a></li>
+                <li><?php echo $this->Html->link(
+                        $sid, array('action' => 'index', $sid));?></li>
                 <li>
                     <?php echo $this->Html->link(
                         "Cerrar sesion", array('controller' => 'students', 'action' => 'login'));?>

@@ -25,12 +25,10 @@
             <th><?php echo $this->Form->input('sportCategoryFil', array('type' => 'text','label' => '', 'class' =>'form control'));?></th>
             <th><?php echo $this->Form->input('periodNameFil', array('type' => 'text','label' => '', 'class' =>'form control'));?></th>
             </tr>
-        <tr>
-            <td><?php  echo $this->Form->submit('Buscar', array('class' => 'btn btn-primary btn-lg','div'=>false, 'name'=>'submit')); ?></td>
-            <td><?php  echo $this->Form->submit('PDF', array('class' => 'btn btn-primary btn-lg','div'=>false, 'name'=>'submit')); ?></td>
+        <tr><td><br><?php  echo $this->Form->submit('Buscar', array('class' => 'btn btn-primary btn-lg','div'=>false, 'name'=>'submit')); ?>
+                <?php  echo $this->Form->submit('PDF', array('class' => 'btn btn-primary btn-lg','div'=>false, 'name'=>'submit')); ?></td>
             <?php  echo $this->Form->end(); ?>
-        </tr>
-        <tr><td colspan="6"><h2 style="text-align: center">Resultados</h2></td></tr>
+            <td colspan="4"><h2 style="text-align: center">Resultados</h2></td></tr>
         <tr>
             <th>Nombre del Equipo</th>
             <th>Delegado</th>
