@@ -4,12 +4,14 @@ App::uses('CakeEmail', 'Network/Email');
 class SadminController extends AppController {
     public $helpers = array('Html', 'Form');
 
-    public function index()
-    {
+    var $layout = 'superadmin';
 
-    }
 
     public function viewPdf(){
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 
                 //Filtros
                 $teamNameFil=$this->request->data('teamNameFil');
@@ -85,6 +87,10 @@ class SadminController extends AppController {
     }
 
     public function sendAll() {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 
         if ($this->request->is('post')){
 
@@ -152,13 +158,17 @@ class SadminController extends AppController {
                 endforeach;
             }
 
-            $this->redirect(array('action'=>'index'));
+            $this->redirect(array('controller' => 'users', 'action'=>'index'));
         }
 
     }
 
     public function rptActionLogs()
     {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
         $this->loadModel('Actionlog');
         $this->loadModel('User');
         $logs = $this->Actionlog->find('all', array(
@@ -172,6 +182,10 @@ class SadminController extends AppController {
     }
     public function rptTeams($teamNameFil=null, $studentNameFil=null, $teamStatusFil=null,$sportNameFil=null, $sportCategoryFil=null, $periodNameFil=null)
     {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
         if ($this->request->is('post'))
         {
             if($this->request->data['submit'] == 'PDF'){
@@ -255,6 +269,10 @@ class SadminController extends AppController {
     }
 	
 	public function changePeriod() {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 		$this->loadModel('Period');
 		$this->loadModel('Team');
 		$period = $this->Period->find('first', array(
@@ -298,6 +316,10 @@ class SadminController extends AppController {
 
 	
 	public function view($id=null) {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 		$this->loadModel('Student');
 		$this->loadModel('Team');
 		$team = $this->Team->findById($id);

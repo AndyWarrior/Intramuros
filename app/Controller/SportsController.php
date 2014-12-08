@@ -3,7 +3,13 @@
 class SportsController extends AppController {
     public $helpers = array('Html', 'Form');
 
+    var $layout = 'superadmin';
+
     public function index() {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 		$this->loadModel('User');
 		$users = $this->User->find('all');
 		$sports = $this->Sport->find('all', array(
@@ -13,6 +19,10 @@ class SportsController extends AppController {
     }
 	
 	public function add() {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 		$this->loadModel('User');
 		$users = $this->User->find('all');
 		$this->set('users', $users);
@@ -32,6 +42,10 @@ class SportsController extends AppController {
     }
 	
 	public function edit($id = null) {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 		if (!$id) {
 			throw new NotFoundException(__('Deporte invalido'));
 		}
@@ -64,6 +78,10 @@ class SportsController extends AppController {
 	}
 	
 	public function delete($id) {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 		if ($this->request->is('get')) {
 			throw new MethodNotAllowedException();
 		}

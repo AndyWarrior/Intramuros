@@ -4,13 +4,23 @@ class UsersController extends AppController
 {
     public $helpers = array('Html', 'Form');
 
+    var $layout = 'superadmin';
+
     public function index(){
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
         $users = $this->User->find('all');
         $this->set('users', $users);
     }
 
     public function add()
     {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 
         if ($this->request->is('post')) {
             $this->User->create();
@@ -33,6 +43,10 @@ class UsersController extends AppController
     }
 
     public function edit($id = null) {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 
         $user = $this->User->find('first', array(
             'conditions' =>array('id' => $id)));
@@ -58,6 +72,10 @@ class UsersController extends AppController
     }
 
     public function password($id = null){
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
         $user = $this->User->find('first', array(
             'conditions' =>array('id' => $id)));
 
@@ -82,6 +100,10 @@ class UsersController extends AppController
     }
 
     public function deactivate($id = null){
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 
         if (!$id) {
             $this->Session->setFlash('Please provide a user id');
@@ -108,6 +130,10 @@ class UsersController extends AppController
     }
 
     public function activate($id = null) {
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $this->redirect(array('controller' => 'teams', 'action'=>'index'));
+        }
 
             if (!$id) {
                 $this->Session->setFlash('Please provide a user id');
