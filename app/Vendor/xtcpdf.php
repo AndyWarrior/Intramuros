@@ -38,7 +38,8 @@ class XTCPDF  extends TCPDF
      */
     function Footer()
     {
-        $year = date('Y','M','D');
+        date_default_timezone_set('America/Monterrey');
+        $year = date("Y-m-d H:i:s");
         $footertext = sprintf($this->xfootertext, $year);
         $this->SetY(-20);
         $this->SetTextColor(0, 0, 0);

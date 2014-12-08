@@ -80,7 +80,8 @@ $user = $this->Session->read('Auth.User');
                                 "Deportes", array('controller' => 'sports', 'action' => 'index'));?></li>
                         <li ><?php echo $this->Html->link(
                                 "Reglamento", array('controller' => 'rules', 'action' => 'index'));?></li>
-                        <li ><a href="/">Reportes</a></li>
+                        <li ><?php echo $this->Html->link(
+                                "Reportes", array('controller' => 'sadmin', 'action' => 'rptTeams'));?></li>
                         <li ><?php echo $this->Html->link(
                                 "Aviso General", array('controller' => 'sadmin', 'action' => 'sendAll'));?></li>
                     </ul>
