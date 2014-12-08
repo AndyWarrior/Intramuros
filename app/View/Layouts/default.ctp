@@ -102,7 +102,6 @@ $user = $this->Session->read('Auth.User');
             <div class="users form">
                 <?php echo $this->Session->flash(); ?>
                 <?php echo $this->fetch('content'); ?>
-                <?php echo $this->element('sql_dump'); ?>
             </div>
         </div>
     </div>
