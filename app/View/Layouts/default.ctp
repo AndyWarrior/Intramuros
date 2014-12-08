@@ -83,6 +83,8 @@ $user = $this->Session->read('Auth.User');
                         <li ><?php echo $this->Html->link(
                                 "Reportes", array('controller' => 'sadmin', 'action' => 'rptTeams'));?></li>
                         <li ><?php echo $this->Html->link(
+                                "Reportes de actividad", array('controller' => 'sadmin', 'action' => 'rptActionLogs'));?></li>
+                        <li ><?php echo $this->Html->link(
                                 "Aviso General", array('controller' => 'sadmin', 'action' => 'sendAll'));?></li>
                     </ul>
                 </div>
