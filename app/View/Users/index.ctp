@@ -25,7 +25,11 @@
                     <?php echo $this->Html->link("Cambiar contraseña",   array('action'=>'password', $user['User']['id']) ); ?> |
                     <?php
                     if( $user['User']['active'] != 0){
-                        echo $this->Html->link(    "Desactivar", array('action'=>'deactivate', $user['User']['id']));}else{
+                        echo $this->Form->postLink(
+                            'Desactivar',
+                            array('action' => 'deactivate', $user['User']['id']),
+                            array('confirm' => 'Estas seguro de querer desactivar a este usuario?')
+                        ); }else{
                         echo $this->Html->link(    "Activar", array('action'=>'activate', $user['User']['id']));
                     }
                     ?>

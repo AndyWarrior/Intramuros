@@ -6,7 +6,7 @@
 <?php
 echo $this->Form->create('User');
 echo $this->Form->input('id', array('type' => 'hidden'));
-echo $this->Form->input('password', array('label' => 'Contraseña', 'class' => 'form-control', 'maxLength' => 255, 'type'=>'password'));
+echo $this->Form->input('password', array('label' => 'Contraseña', 'class' => 'form-control', 'maxLength' => 255, 'type'=>'password', 'value' =>'', 'required'));
 echo "<br>";
 echo $this->Form->submit('Cambiar contraseña', array('class' => 'btn btn-primary btn-lg',  'title' => 'Cambiar contraseña') );
 echo $this->Form->end();
