@@ -101,6 +101,7 @@ class TeamsController extends AppController {
             ));
         } else {
             $sports = $this->sport->find('all', array(
+                'order' => array('name' => 'ASC'),
                 'conditions' => array('user_id' => $uid, 'active' => 1)));
         }
 
@@ -253,9 +254,22 @@ class TeamsController extends AppController {
 		if (!$sid) {
 			throw new NotFoundException(__('Opcion invalida.'));
 		}
+
+        //sports list
 		$sports = $this->Sport->find('all', array(
-            'conditions' => array('id' => $sid)));
-		$this->set('sports', $sports);
+            'order' => array('name' => 'ASC')
+        ));
+		$this->set('sprt', $sports);
+
+        //sidebar
+        $type = $this->Auth->User('user_type');
+        if($type != 1){
+            $sports = $this->sport->find('all', array(
+                'order' => array('name' => 'ASC'),
+                'conditions' => array('user_id' => $id, 'active' => 1)));
+        }
+        $this->set('sports',$sports);
+
 		$team = $this->Team->findById($id);
 		if (!$team) {
 			throw new NotFoundException(__('Opcion invalida.'));
