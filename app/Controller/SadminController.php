@@ -3,26 +3,22 @@
 App::uses('CakeEmail', 'Network/Email');
 class SadminController extends AppController {
     public $helpers = array('Html', 'Form');
-	
-	public function index()
+
+    public function index()
     {
 
     }
 
-    public function viewPdf($teamNameFil=null, $studentNameFil=null, $teamStatusFil=null,$sportNameFil=null, $sportCategoryFil=null, $periodNameFil=null){
+    public function viewPdf(){
 
-        if ($this->request->is('post'))
-        {
-            //Filtros
-            $teamNameFil=$this->request->data('teamNameFil');
-            $teamStatusFil=$this->request->data('teamStatusFil');
-            $studentNameFil=$this->request->data('studentNameFil');
-            $sportNameFil=$this->request->data('sportNameFil');
-            $sportCategoryFil=$this->request->data('sportCategoryFil');
-            $periodNameFil=$this->request->data('periodNameFil');
+                //Filtros
+                $teamNameFil=$this->request->data('teamNameFil');
+                $teamStatusFil=$this->request->data('teamStatusFil');
+                $studentNameFil=$this->request->data('studentNameFil');
+                $sportNameFil=$this->request->data('sportNameFil');
+                $sportCategoryFil=$this->request->data('sportCategoryFil');
+                $periodNameFil=$this->request->data('periodNameFil');
 
-
-        }
         //Se obtiene el "id" del admin
         $uid = $this->Auth->user('id');
         //Se cargan los modelos necesarios para desplegar los resultados para poblar la vista
@@ -31,12 +27,7 @@ class SadminController extends AppController {
         $this->loadModel('Sport');
         $this->loadModel('Team');
 
-
-        //Se obtiene el periodo activo
-        $period = $this->Period->find('first', array(
-            'conditions' => array('active' => 1)));
-
-        //Se inicializan los filtros en caso de ver recibido nulos
+        //Se inicializan los filtros en caso de haber recibido nulos
         if (!$teamNameFil)
             $teamNameFil = '';
         if (!$teamStatusFil)
@@ -79,8 +70,8 @@ class SadminController extends AppController {
                 )
 
             ),
-            'conditions' => array('Team.period_id' => $period['Period']['id'],'Team.active' => 1
-            ,'Team.name LIKE' => '%'. $teamNameFil . '%', 'std.name LIKE' => '%'. $studentNameFil . '%', 'Team.status LIKE' => '%'. $teamStatusFil . '%',
+            'conditions' => array(
+                'Team.name LIKE' => '%'. $teamNameFil . '%', 'std.name LIKE' => '%'. $studentNameFil . '%', 'Team.status LIKE' => '%'. $teamStatusFil . '%',
                 'sprt.name LIKE' => '%'. $sportNameFil . '%','sprt.category LIKE' => '%'. $sportCategoryFil . '%',
                 'prd.period LIKE' => '%'. $periodNameFil . '%'
             ),
@@ -89,7 +80,6 @@ class SadminController extends AppController {
         ));
         //Envio a front end the los resultados
         $this ->set('teams',$teams);
-
         $this->layout = 'pdf'; //this will use the pdf.ctp layout
         $this->render();
     }
@@ -162,27 +152,32 @@ class SadminController extends AppController {
                 endforeach;
             }
 
-           $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action'=>'index'));
         }
 
     }
 
     public function rptActionLogs()
     {
-		$this->loadModel('Actionlog');
-		$this->loadModel('User');
-		$logs = $this->Actionlog->find('all', array(
-                'order' => array('timestamp' => 'DESC')
-            ));
-		$users = $this->User->find('all');
-		
-		$this ->set('logs',$logs);
-		$this ->set('users',$users);
+        $this->loadModel('Actionlog');
+        $this->loadModel('User');
+        $logs = $this->Actionlog->find('all', array(
+            'order' => array('timestamp' => 'DESC'),
+            'limit' => 200,
+        ));
+        $users = $this->User->find('all');
+
+        $this ->set('logs',$logs);
+        $this ->set('users',$users);
     }
     public function rptTeams($teamNameFil=null, $studentNameFil=null, $teamStatusFil=null,$sportNameFil=null, $sportCategoryFil=null, $periodNameFil=null)
     {
         if ($this->request->is('post'))
         {
+            if($this->request->data['submit'] == 'PDF'){
+                $this->setAction('viewPdf');
+            }
+             else {
             //Filtros
             $teamNameFil=$this->request->data('teamNameFil');
             $teamStatusFil=$this->request->data('teamStatusFil');
@@ -190,6 +185,7 @@ class SadminController extends AppController {
             $sportNameFil=$this->request->data('sportNameFil');
             $sportCategoryFil=$this->request->data('sportCategoryFil');
             $periodNameFil=$this->request->data('periodNameFil');
+             }
 
 
         }
@@ -200,11 +196,6 @@ class SadminController extends AppController {
         $this->loadModel('Student');
         $this->loadModel('Sport');
         $this->loadModel('Team');
-
-
-        //Se obtiene el periodo activo
-        $period = $this->Period->find('first', array(
-            'conditions' => array('active' => 1)));
 
         //Se inicializan los filtros en caso de haber recibido nulos
         if (!$teamNameFil)
@@ -249,8 +240,8 @@ class SadminController extends AppController {
                 )
 
             ),
-            'conditions' => array('Team.period_id' => $period['Period']['id'],'Team.active' => 1
-            ,'Team.name LIKE' => '%'. $teamNameFil . '%', 'std.name LIKE' => '%'. $studentNameFil . '%', 'Team.status LIKE' => '%'. $teamStatusFil . '%',
+            'conditions' => array(
+            'Team.name LIKE' => '%'. $teamNameFil . '%', 'std.name LIKE' => '%'. $studentNameFil . '%', 'Team.status LIKE' => '%'. $teamStatusFil . '%',
                 'sprt.name LIKE' => '%'. $sportNameFil . '%','sprt.category LIKE' => '%'. $sportCategoryFil . '%',
                 'prd.period LIKE' => '%'. $periodNameFil . '%'
             ),
@@ -305,12 +296,6 @@ class SadminController extends AppController {
 		
     }
 
-    public function add() {
-    }
-	
-	public function edit($id = null, $sid = null) {
-
-	}
 	
 	public function view($id=null) {
 		$this->loadModel('Student');
@@ -321,7 +306,4 @@ class SadminController extends AppController {
 		$this->set('team',$team);
 	}
 	
-	public function delete($id = null) {
-
-	}
 }

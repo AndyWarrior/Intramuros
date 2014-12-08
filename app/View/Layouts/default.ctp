@@ -81,9 +81,18 @@ $user = $this->Session->read('Auth.User');
                         <li ><?php echo $this->Html->link(
                                 "Reglamento", array('controller' => 'rules', 'action' => 'index'));?></li>
                         <li ><?php echo $this->Html->link(
-                                "Reportes", array('controller' => 'sadmin', 'action' => 'rptTeams'));?></li>
+                                "Reporte de equipos", array('controller' => 'sadmin', 'action' => 'rptTeams'));?></li>
+                        <li ><?php echo $this->Html->link(
+                                "Reporte de actividad", array('controller' => 'sadmin', 'action' => 'rptActionLogs'));?></li>
                         <li ><?php echo $this->Html->link(
                                 "Aviso General", array('controller' => 'sadmin', 'action' => 'sendAll'));?></li>
+                        <li ><?php
+                            echo $this->Form->postLink(
+                                'Terminar periodo',
+                                array('controller' =>'sadmin','action' => 'changePeriod'),
+                                array('confirm' => 'Seguro que quieres terminar el periodo actual?')
+                            );
+                            ?></li>
                     </ul>
                 </div>
 

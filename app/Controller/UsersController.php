@@ -57,6 +57,30 @@ class UsersController extends AppController
         }
     }
 
+    public function password($id = null){
+        $user = $this->User->find('first', array(
+            'conditions' =>array('id' => $id)));
+
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->User->id = $id;
+            if ($this->User->save($this->request->data)) {
+                $this->loadModel('Actionlog');
+                date_default_timezone_set('America/Monterrey');
+                $action = array('user_id' => $this->Auth->user('id'), 'action' => 'Cambiar contraseña', 'timestamp' => date('Y-m-d h:i:s'));
+                $this->Actionlog->create();
+                $this->Actionlog->save($action);
+                $this->Session->setFlash(__('El usuario ha sido editado'));
+                $this->redirect(array('action' => 'index'));
+            }else{
+                $this->Session->setFlash(__('No se pudo modificar'));
+            }
+        }
+
+        if (!$this->request->data) {
+            $this->request->data = $user;
+        }
+    }
+
     public function deactivate($id = null){
 
         if (!$id) {
