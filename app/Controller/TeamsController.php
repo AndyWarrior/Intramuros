@@ -35,7 +35,8 @@ class TeamsController extends AppController {
         {
             if($type == 1){
                 $sport = $this->Sport->find('first', array(
-                    'order' => array('name' => 'ASC')
+                    'order' => array('name' => 'ASC'),
+                    'conditions' => array('active' => 1)
                 ));
             } else {
             //Si no recibe un SportId busca el primero asociado al admin
@@ -102,7 +103,8 @@ class TeamsController extends AppController {
         // side-bar
         if($type == 1){
             $sports = $this->Sport->find('all', array(
-                'order' => array('name' => 'ASC')
+                'order' => array('name' => 'ASC'),
+                'conditions' => array('active' => 1)
             ));
         } else {
             $sports = $this->Sport->find('all', array(
@@ -114,12 +116,27 @@ class TeamsController extends AppController {
 
     }
 
-    public function sendAll($sportId=null,$periodId=null,$teamNameFil=null,$studentNameFil=null,$teamStatusFil=null) {
+    public function sendAll($sportId=null,$periodId=null,$teamNameFil=null,$studentNameFil=null,$teamStatusFil=null)
+    {
+        $type = $this->Auth->User('user_type');
+
+        //Se obtiene el "id" del admin
+        $uid = $this->Auth->user('id');
+        $this->loadModel('Sport');
+        if($type == 1){
+            $sports = $this->Sport->find('all', array(
+                'order' => array('name' => 'ASC'),
+                'conditions' => array('active' => 1)
+            ));
+        } else {
+            $sports = $this->Sport->find('all', array(
+                'order' => array('name' => 'ASC'),
+                'conditions' => array('user_id' => $uid, 'active' => 1)));
+        }
+        $this->set('sports',$sports);
 
         if ($this->request->is('post')){
 
-            //Se obtiene el "id" del admin
-            $uid = $this->Auth->user('id');
             //Se carga el modelo de Users para obtener el email del admin
             $this->loadModel('User');
             //Se cargan los modelos necesarios para ejecutar el query que obtendra los emails
@@ -199,11 +216,27 @@ class TeamsController extends AppController {
             $this ->set('teamStatusFil',$teamStatusFil);
         }
     }
-    public function sendOne($sportId=null, $email = null) {
+    public function sendOne($sportId=null, $email = null)
+    {
+
+        $type = $this->Auth->User('user_type');
+
+        //Se obtiene el "id" del admin
+        $uid = $this->Auth->user('id');
+        $this->loadModel('Sport');
+        if($type == 1){
+            $sports = $this->Sport->find('all', array(
+                'order' => array('name' => 'ASC'),
+                'conditions' => array('active' => 1)
+            ));
+        } else {
+            $sports = $this->Sport->find('all', array(
+                'order' => array('name' => 'ASC'),
+                'conditions' => array('user_id' => $uid, 'active' => 1)));
+        }
+        $this->set('sports',$sports);
 
         if ($this->request->is('post')) {
-            //Se obtiene el "id" del admin
-            $uid = $this->Auth->user('id');
             //Se carga el modelo de Users para obtener el email del admin
             $this->loadModel('User');
             //Se obtiene el email del admin
@@ -262,7 +295,8 @@ class TeamsController extends AppController {
 
         //sports list
 		$sports = $this->Sport->find('all', array(
-            'order' => array('name' => 'ASC')
+            'order' => array('name' => 'ASC'),
+            'conditions' => array('active' => 1)
         ));
 		$this->set('sprt', $sports);
 
