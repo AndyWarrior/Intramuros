@@ -13,6 +13,8 @@ class StudentsController extends AppController {
         $this->Auth->allow('add');
         $this->Auth->allow('edit');
         $this->Auth->allow('check');
+        $this->Auth->allow('rule');
+        $this->Auth->allow('email');
     }
 
 	public function login() {
@@ -160,6 +162,8 @@ class StudentsController extends AppController {
         }
 
 	}
+
+
     function rule($id = null){
         $this->loadModel('Rule');
         $rule = $this->Rule->findById(1);
