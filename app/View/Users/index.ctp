@@ -22,6 +22,7 @@
                 <td><?php if($user['User']['active'] == 1){echo "Active";}else{echo "Deactivated";}?></td>
                 <td >
                     <?php echo $this->Html->link("Edit",   array('action'=>'edit', $user['User']['id']) ); ?> |
+                    <?php echo $this->Html->link("Cambiar contraseña",   array('action'=>'password', $user['User']['id']) ); ?> |
                     <?php
                     if( $user['User']['active'] != 0){
                         echo $this->Html->link(    "Desactivar", array('action'=>'deactivate', $user['User']['id']));}else{
