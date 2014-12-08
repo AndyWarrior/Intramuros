@@ -27,7 +27,7 @@ $user = $this->Session->read('Auth.User');
 
     echo $this->Html->css('bootstrap.min');
     echo $this->Html->css('dashboard');
-
+    echo $this->Html->script('jquery');
     echo $this->fetch('meta');
     echo $this->fetch('css');
     echo $this->fetch('script');

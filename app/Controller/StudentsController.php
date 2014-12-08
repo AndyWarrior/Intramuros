@@ -1,7 +1,7 @@
 <?php 
 
 class StudentsController extends AppController {
-    public $helpers = array('Html', 'Form');
+    public $helpers = array('Html', 'Form', 'Js');
 
     var $layout = 'student';
 
@@ -102,6 +102,62 @@ class StudentsController extends AppController {
         }
 	}
 	
-	public function delete($id) {
+	public function check() {
+
+        $this->layout=false;
+        $this->autoRender = false;
+        if($this->request->is('ajax')){
+        $this->loadModel('Sport');
+
+        $sportId = $this->request->data('sportId');
+
+        $sport = $this->Sport->findById($sportId);
+
+        $days = "";
+
+        if($sport['Sport']['monday']){
+            $days = $days.'1';
+        } else {
+            $days = $days.'0';
+        }
+
+        if($sport['Sport']['tuesday']){
+            $days = $days.'1';
+        } else {
+            $days = $days.'0';
+        }
+
+        if($sport['Sport']['wednesday']){
+            $days = $days.'1';
+        } else {
+            $days = $days.'0';
+        }
+
+        if($sport['Sport']['thursday']){
+            $days = $days.'1';
+        } else {
+            $days = $days.'0';
+        }
+        if($sport['Sport']['friday']){
+            $days = $days.'1';
+        } else {
+            $days = $days.'0';
+        }
+
+        if($sport['Sport']['saturday']){
+            $days = $days.'1';
+        } else {
+            $days = $days.'0';
+        }
+
+        if($sport['Sport']['sunday']){
+            $days = $days.'1';
+        } else {
+            $days = $days.'0';
+        }
+
+        echo $days;
+        }
+
 	}
 }

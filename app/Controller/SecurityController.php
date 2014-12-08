@@ -25,7 +25,20 @@ class SecurityController extends AppController {
             if ($this->Auth->login()) {
                 $active = $this->Auth->user('active');
                 if($active) {
-                    $this->redirect($this->Auth->redirectUrl());
+                    $this->loadModel('Sport');
+                    $type = $this->Auth->user('user_type');
+                    if($type == 2){
+                        $id = $this->Auth->user('id');
+                        $sports = $this->Sport->find('all', array(
+                            'conditions' => array('user_id' => $id, 'active' => 1)));
+                        if($sports != null){
+                            $this->redirect($this->Auth->redirectUrl());
+                        } else {
+                            $this->redirect(array('action' => 'logout'));
+                        }
+                    } else {
+                        $this->redirect($this->Auth->redirectUrl());
+                    }
                 } else {
                     $this->redirect(array('action' => 'logout'));
                 }
