@@ -12,6 +12,7 @@
     var sportId = sport.options[sport.selectedIndex].value;
     $.ajax({
         type: "POST",
+		async: false,
         url: '<?php echo Router::url(array('controller' => 'students', 'action' => 'check')); ?>',
         data: {
             sportId: sportId
@@ -45,14 +46,14 @@
     echo $this->Form->create('Team');
 	
     echo $this->Form->input('name', array(
-        'label' => 'Nombre del equipo','class' => 'form-control'));
+        'label' => 'Nombre del equipo','class' => 'form-control', 'required'));
 			
 	$deporte = array();
 	foreach ($sports as $sport):
 		$deporte[$sport['Sport']['id']] = $sport['Sport']['name']."-".$sport['Sport']['category'];
 	endforeach;
 	
-	echo $this->Form->input('sport_id', array('empty'=>true,'onchange' => 'check()' ,'label' => 'Deporte del equipo', 'class' => 'form-control','options' => $deporte ));
+	echo $this->Form->input('sport_id', array('empty'=>true,'onchange' => 'check()' ,'label' => 'Deporte del equipo', 'class' => 'form-control','options' => $deporte, 'required' ));
 
 	
 	echo $this->Form->input('monday', array(
