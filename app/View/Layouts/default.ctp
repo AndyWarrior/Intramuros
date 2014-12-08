@@ -86,6 +86,13 @@ $user = $this->Session->read('Auth.User');
                                 "Reportes de actividad", array('controller' => 'sadmin', 'action' => 'rptActionLogs'));?></li>
                         <li ><?php echo $this->Html->link(
                                 "Aviso General", array('controller' => 'sadmin', 'action' => 'sendAll'));?></li>
+                        <li ><?php
+                            echo $this->Form->postLink(
+                                'Terminar periodo',
+                                array('controller' =>'sadmin','action' => 'changePeriod'),
+                                array('confirm' => 'Seguro que quieres terminar el periodo actual?')
+                            );
+                            ?></li>
                     </ul>
                 </div>
 
